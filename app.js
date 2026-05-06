@@ -4,7 +4,7 @@ const DEFAULT_TEAMS = [
     name: "Twisted Minds",
     region: "EMEA",
     seed: "1",
-    logo: "https://liquipedia.net/commons/Special:FilePath/Twisted_Minds_allmode.png",
+    logo: "https://liquipedia.net/commons/Special:FilePath/Twisted_Minds_2023_full_lightmode.png",
     color: "#161616",
   },
   {
@@ -12,7 +12,7 @@ const DEFAULT_TEAMS = [
     name: "All Gamers",
     region: "China",
     seed: "2",
-    logo: "https://liquipedia.net/commons/Special:FilePath/All_Gamers_logo.png",
+    logo: "https://liquipedia.net/commons/Special:FilePath/All_Gamers_full_allmode.png",
     color: "#c9282d",
   },
   {
@@ -20,7 +20,7 @@ const DEFAULT_TEAMS = [
     name: "Dallas Fuel",
     region: "NA",
     seed: "1",
-    logo: "https://liquipedia.net/commons/Special:FilePath/Dallas_Fuel_allmode.png",
+    logo: "https://liquipedia.net/commons/Special:FilePath/Dallas_Fuel_full_lightmode.png",
     color: "#0072ce",
   },
   {
@@ -36,7 +36,7 @@ const DEFAULT_TEAMS = [
     name: "Weibo Gaming",
     region: "China",
     seed: "1",
-    logo: "https://liquipedia.net/commons/Special:FilePath/Weibo_Gaming_allmode.png",
+    logo: "https://liquipedia.net/commons/Special:FilePath/Weibo_Gaming_full_lightmode.png",
     color: "#e51b23",
   },
   {
@@ -44,7 +44,7 @@ const DEFAULT_TEAMS = [
     name: "Virtus.pro",
     region: "EMEA",
     seed: "2",
-    logo: "https://liquipedia.net/commons/Special:FilePath/Virtus.pro_allmode.png",
+    logo: "https://liquipedia.net/commons/Special:FilePath/Virtus_Pro_Original_Logo.png",
     color: "#f05a28",
   },
   {
@@ -60,7 +60,7 @@ const DEFAULT_TEAMS = [
     name: "Spacestation Gaming",
     region: "NA",
     seed: "2",
-    logo: "https://liquipedia.net/commons/Special:FilePath/Spacestation_Gaming_allmode.png",
+    logo: "https://liquipedia.net/commons/Special:FilePath/Spacestation_Gaming_2023_full_allmode.png",
     color: "#ffcc33",
   },
 ];
@@ -100,8 +100,8 @@ function hydrateTeams(teams) {
   return DEFAULT_TEAMS.map((defaultTeam) => ({
     ...defaultTeam,
     ...(savedById[defaultTeam.id] || {}),
-    logo: savedById[defaultTeam.id]?.logo ?? defaultTeam.logo,
-    color: savedById[defaultTeam.id]?.color ?? defaultTeam.color,
+    logo: defaultTeam.logo,
+    color: defaultTeam.color,
   }));
 }
 
