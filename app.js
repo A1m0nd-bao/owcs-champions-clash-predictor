@@ -1,12 +1,68 @@
 const DEFAULT_TEAMS = [
-  { id: "tm", name: "Twisted Minds", region: "EMEA", seed: "1" },
-  { id: "ag", name: "All Gamers", region: "China", seed: "2" },
-  { id: "df", name: "Dallas Fuel", region: "NA", seed: "1" },
-  { id: "asia2", name: "Asia Second Seed", region: "Asia", seed: "2" },
-  { id: "wbg", name: "Weibo Gaming", region: "China", seed: "1" },
-  { id: "vp", name: "Virtus.pro", region: "EMEA", seed: "2" },
-  { id: "asia1", name: "Asia First Seed", region: "Asia", seed: "1" },
-  { id: "ssg", name: "Spacestation Gaming", region: "NA", seed: "2" },
+  {
+    id: "tm",
+    name: "Twisted Minds",
+    region: "EMEA",
+    seed: "1",
+    logo: "https://liquipedia.net/commons/Special:FilePath/Twisted_Minds_allmode.png",
+    color: "#161616",
+  },
+  {
+    id: "ag",
+    name: "All Gamers",
+    region: "China",
+    seed: "2",
+    logo: "https://liquipedia.net/commons/Special:FilePath/All_Gamers_logo.png",
+    color: "#c9282d",
+  },
+  {
+    id: "df",
+    name: "Dallas Fuel",
+    region: "NA",
+    seed: "1",
+    logo: "https://liquipedia.net/commons/Special:FilePath/Dallas_Fuel_allmode.png",
+    color: "#0072ce",
+  },
+  {
+    id: "asia2",
+    name: "Asia Second Seed",
+    region: "Asia",
+    seed: "2",
+    logo: "",
+    color: "#f59f00",
+  },
+  {
+    id: "wbg",
+    name: "Weibo Gaming",
+    region: "China",
+    seed: "1",
+    logo: "https://liquipedia.net/commons/Special:FilePath/Weibo_Gaming_allmode.png",
+    color: "#e51b23",
+  },
+  {
+    id: "vp",
+    name: "Virtus.pro",
+    region: "EMEA",
+    seed: "2",
+    logo: "https://liquipedia.net/commons/Special:FilePath/Virtus.pro_allmode.png",
+    color: "#f05a28",
+  },
+  {
+    id: "asia1",
+    name: "Asia First Seed",
+    region: "Asia",
+    seed: "1",
+    logo: "",
+    color: "#15aabf",
+  },
+  {
+    id: "ssg",
+    name: "Spacestation Gaming",
+    region: "NA",
+    seed: "2",
+    logo: "https://liquipedia.net/commons/Special:FilePath/Spacestation_Gaming_allmode.png",
+    color: "#ffcc33",
+  },
 ];
 
 const STORAGE_KEY = "owcs-champions-clash-2026-predictor-v1";
@@ -28,7 +84,7 @@ function loadState() {
   try {
     const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
     if (saved?.teams?.length === DEFAULT_TEAMS.length) {
-      return { teams: saved.teams, picks: saved.picks || {} };
+      return { teams: hydrateTeams(saved.teams), picks: saved.picks || {} };
     }
   } catch {
     localStorage.removeItem(STORAGE_KEY);
@@ -37,6 +93,16 @@ function loadState() {
     teams: structuredClone(DEFAULT_TEAMS),
     picks: {},
   };
+}
+
+function hydrateTeams(teams) {
+  const savedById = Object.fromEntries(teams.map((item) => [item.id, item]));
+  return DEFAULT_TEAMS.map((defaultTeam) => ({
+    ...defaultTeam,
+    ...(savedById[defaultTeam.id] || {}),
+    logo: savedById[defaultTeam.id]?.logo ?? defaultTeam.logo,
+    color: savedById[defaultTeam.id]?.color ?? defaultTeam.color,
+  }));
 }
 
 function saveState() {
@@ -113,7 +179,10 @@ function renderSeeds() {
     const row = document.createElement("div");
     row.className = "seed-row";
     row.innerHTML = `
-      <div class="seed-rank">${index + 1}</div>
+      <div class="seed-rank">
+        ${renderLogo(item, "seed-logo")}
+        <span>${index + 1}</span>
+      </div>
       <div class="seed-fields">
         <input aria-label="队名" value="${escapeAttr(item.name)}" data-field="name" data-id="${item.id}">
         <input aria-label="地区" value="${escapeAttr(item.region)}" data-field="region" data-id="${item.id}">
@@ -139,6 +208,7 @@ function renderPodium() {
   podium.innerHTML = places.map(([label, item]) => `
     <div class="podium-card">
       <span class="place">${label}</span>
+      ${item ? renderLogo(item, "podium-logo") : ""}
       <span class="podium-team">${item ? escapeHtml(item.name) : "待预测"}</span>
       <span class="team-seed">${item ? `${escapeHtml(item.region)} #${escapeHtml(item.seed)}` : "完成关键场次后显示"}</span>
     </div>
@@ -175,8 +245,11 @@ function renderMatch(match) {
     const isWinner = picked === item.id;
     return `
       <button class="team-button${isWinner ? " winner" : ""}" type="button" data-match="${match.id}" data-team="${item.id}" ${ready ? "" : "disabled"}>
-        <span class="team-name">${escapeHtml(item.name)}</span>
-        <span class="team-seed">${escapeHtml(item.region)} #${escapeHtml(item.seed)}</span>
+        ${renderLogo(item, "match-logo")}
+        <span class="team-copy">
+          <span class="team-name">${escapeHtml(item.name)}</span>
+          <span class="team-seed">${escapeHtml(item.region)} #${escapeHtml(item.seed)}</span>
+        </span>
       </button>
     `;
   };
@@ -225,6 +298,27 @@ function escapeAttr(value) {
   return escapeHtml(value);
 }
 
+function initials(name) {
+  const words = String(name).trim().split(/\s+/).filter(Boolean);
+  if (!words.length) return "?";
+  if (words.length === 1) return words[0].slice(0, 2).toUpperCase();
+  return words.slice(0, 2).map((word) => word[0]).join("").toUpperCase();
+}
+
+function renderLogo(item, className) {
+  const style = `--team-color:${escapeAttr(item.color || "#263746")}`;
+  const fallback = `<span class="logo-fallback" style="${style}" ${item.logo ? "hidden" : ""}>${escapeHtml(initials(item.name))}</span>`;
+  if (!item.logo) {
+    return `<span class="team-logo ${className}">${fallback}</span>`;
+  }
+  return `
+    <span class="team-logo ${className}">
+      <img class="logo-img" src="${escapeAttr(item.logo)}" alt="${escapeAttr(item.name)} 队标" loading="lazy">
+      ${fallback}
+    </span>
+  `;
+}
+
 document.addEventListener("click", (event) => {
   const teamButton = event.target.closest("[data-match][data-team]");
   if (teamButton) {
@@ -263,5 +357,16 @@ seedList.addEventListener("input", (event) => {
   renderPodium();
   saveState();
 });
+
+document.addEventListener(
+  "error",
+  (event) => {
+    if (!event.target.classList?.contains("logo-img")) return;
+    const fallback = event.target.nextElementSibling;
+    event.target.hidden = true;
+    if (fallback) fallback.hidden = false;
+  },
+  true,
+);
 
 render();
