@@ -44,7 +44,7 @@ const DEFAULT_TEAMS = [
     name: "Virtus.pro",
     region: "EMEA",
     seed: "2",
-    logo: "",
+    logo: "./assets/logos/virtus-pro.png",
     color: "#f05a28",
   },
   {
