@@ -8,3 +8,7 @@
 - 481651.xyz: OWCS 数据可视化
 
 直接打开 `index.html` 即可本地使用。
+
+## Assets
+
+队标文件存放在 `assets/logos/`，来源为 Liquipedia Commons 对应队伍页面引用的文件。队名、队标和商标归各自俱乐部或权利方所有；本项目仅用于非商业赛事预测展示。页面不会热链接 Liquipedia 图片资源。
