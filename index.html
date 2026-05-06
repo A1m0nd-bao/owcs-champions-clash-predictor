@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>OWCS 世界赛预测器</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Overwatch Champions Series</p>
+          <h1>OWCS 世界赛预测器</h1>
+        </div>
+        <div class="top-actions">
+          <button id="resetPicks" class="ghost-btn" type="button">清空预测</button>
+          <button id="resetAll" class="danger-btn" type="button">恢复初始数据</button>
+        </div>
+      </header>
+
+      <main class="layout">
+        <aside class="panel seeds-panel" aria-label="种子顺位编辑">
+          <div class="panel-head">
+            <div>
+              <p class="eyebrow">Seed Editor</p>
+              <h2>初始种子</h2>
+            </div>
+            <span id="progressBadge" class="badge">0 / 14</span>
+          </div>
+          <p class="hint">
+            可以先改队名、地区和顺位，再从胜者组四分之一决赛开始点胜者。当前模板按东京 Champions Clash 的 8 队双败结构推进。
+          </p>
+          <div id="seedList" class="seed-list"></div>
+        </aside>
+
+        <section class="workspace">
+          <section class="hero-strip">
+            <div>
+              <p class="eyebrow">Prediction Board</p>
+              <h2>双败赛程推演</h2>
+              <p>
+                按 Liquipedia 上在东京举办的 2026 Champions Clash 8 队赛事建模；队伍初始排布可按
+                <a href="https://liquipedia.net/overwatch/Overwatch_Champions_Series/2026/Champions_Clash" target="_blank" rel="noreferrer">Liquipedia</a>
+                或 <a href="https://www.481651.xyz" target="_blank" rel="noreferrer">481651.xyz</a> 的数据自行替换。
+              </p>
+            </div>
+            <div id="podium" class="podium" aria-label="预测前三名"></div>
+          </section>
+
+          <nav class="tabs" aria-label="赛程区域">
+            <button class="tab active" type="button" data-tab="all">全部</button>
+            <button class="tab" type="button" data-tab="upper">胜者组</button>
+            <button class="tab" type="button" data-tab="lower">败者组</button>
+            <button class="tab" type="button" data-tab="finals">决赛</button>
+          </nav>
+
+          <div id="bracket" class="bracket"></div>
+        </section>
+      </main>
+    </div>
+
+    <script src="./app.js"></script>
+  </body>
+</html>
