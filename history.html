@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>OWCS 历届国际赛赛果</title>
+    <link rel="stylesheet" href="./styles.css" />
+    <link rel="stylesheet" href="./history.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Overwatch Champions Series</p>
+          <h1>历届国际赛赛果</h1>
+        </div>
+        <div class="top-actions">
+          <a class="ghost-link" href="./index.html">返回预测器</a>
+          <a class="ghost-link" href="https://liquipedia.net/overwatch/Overwatch_Champions_Series" target="_blank" rel="noreferrer">Liquipedia 来源</a>
+        </div>
+      </header>
+
+      <main class="history-layout">
+        <section class="history-intro">
+          <div>
+            <p class="eyebrow">International Events Only</p>
+            <h2>只收录 OWCS 国际赛</h2>
+            <p>
+              数据来自 Liquipedia 的 Overwatch Champions Series 总览页和各赛事页。未来赛程不计入“以往赛果”，不同赛事按各自赛制展示。
+            </p>
+          </div>
+          <div id="historySummary" class="summary-grid"></div>
+        </section>
+
+        <nav class="tabs history-tabs" aria-label="历届赛事筛选">
+          <button class="tab active" type="button" data-year="all">全部</button>
+          <button class="tab" type="button" data-year="2025">2025</button>
+          <button class="tab" type="button" data-year="2024">2024</button>
+        </nav>
+
+        <section id="eventList" class="event-list"></section>
+      </main>
+    </div>
+
+    <script src="./history.js"></script>
+  </body>
+</html>

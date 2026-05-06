@@ -112,6 +112,19 @@ button:hover {
   background: rgba(255, 255, 255, 0.13);
 }
 
+.ghost-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 38px;
+  border: 1px solid rgba(255, 255, 255, 0.38);
+  border-radius: 8px;
+  padding: 8px 12px;
+  color: white;
+  background: rgba(255, 255, 255, 0.13);
+  font-weight: 800;
+}
+
 .danger-btn {
   color: white;
   background: var(--accent-2);
