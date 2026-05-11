@@ -25,11 +25,11 @@ const DEFAULT_TEAMS = [
   },
   {
     id: "asia2",
-    name: "Asia Second Seed",
+    name: "Crazy Raccoon",
     region: "Asia",
     seed: "2",
-    logo: "",
-    color: "#f59f00",
+    logo: "./assets/logos/crazy-raccoon.png",
+    color: "#e7423a",
   },
   {
     id: "wbg",
@@ -49,11 +49,11 @@ const DEFAULT_TEAMS = [
   },
   {
     id: "asia1",
-    name: "Asia First Seed",
+    name: "ZETA DIVISION",
     region: "Asia",
     seed: "1",
-    logo: "",
-    color: "#15aabf",
+    logo: "./assets/logos/zeta-division.png",
+    color: "#111111",
   },
   {
     id: "ssg",
@@ -65,7 +65,7 @@ const DEFAULT_TEAMS = [
   },
 ];
 
-const STORAGE_KEY = "owcs-champions-clash-2026-predictor-v1";
+const STORAGE_KEY = "owcs-champions-clash-2026-predictor-v2";
 const PICK_IDS = [
   "ubqf1", "ubqf2", "ubqf3", "ubqf4",
   "ubsf1", "ubsf2", "ubf",
