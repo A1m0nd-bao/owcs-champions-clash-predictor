@@ -21,20 +21,6 @@
       </header>
 
       <main class="layout">
-        <aside class="panel seeds-panel" aria-label="种子顺位编辑">
-          <div class="panel-head">
-            <div>
-              <p class="eyebrow">Seed Editor</p>
-              <h2>初始种子</h2>
-            </div>
-            <span id="progressBadge" class="badge">0 / 14</span>
-          </div>
-          <p class="hint">
-            可以先改队名、地区和顺位，再从胜者组四分之一决赛开始点胜者。当前模板按东京 Champions Clash 的 8 队双败结构推进。
-          </p>
-          <div id="seedList" class="seed-list"></div>
-        </aside>
-
         <section class="workspace">
           <section class="hero-strip">
             <div>
@@ -58,6 +44,20 @@
 
           <div id="bracket" class="bracket"></div>
         </section>
+
+        <aside class="panel seeds-panel" aria-label="种子顺位编辑">
+          <div class="panel-head">
+            <div>
+              <p class="eyebrow">Seed Editor</p>
+              <h2>初始种子</h2>
+            </div>
+            <span id="progressBadge" class="badge">0 / 14</span>
+          </div>
+          <p class="hint">
+            这里用于校正队名、地区和顺位；上方赛程会随改动即时更新。
+          </p>
+          <div id="seedList" class="seed-list"></div>
+        </aside>
       </main>
     </div>
 

@@ -21,10 +21,7 @@
 body {
   margin: 0;
   min-height: 100vh;
-  background:
-    linear-gradient(135deg, rgba(21, 111, 143, 0.11), transparent 36%),
-    linear-gradient(315deg, rgba(215, 73, 73, 0.1), transparent 32%),
-    var(--bg);
+  background: var(--bg);
   color: var(--ink);
   font-family:
     Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
@@ -43,9 +40,9 @@ a {
 }
 
 .app-shell {
-  width: min(1720px, 100%);
+  width: min(1800px, 100%);
   margin: 0 auto;
-  padding: 22px;
+  padding: 18px;
 }
 
 .topbar {
@@ -53,8 +50,8 @@ a {
   align-items: center;
   justify-content: space-between;
   gap: 18px;
-  min-height: 112px;
-  padding: 22px 24px;
+  min-height: 94px;
+  padding: 18px 22px;
   color: white;
   background:
     linear-gradient(rgba(12, 20, 30, 0.76), rgba(12, 20, 30, 0.72)),
@@ -73,7 +70,7 @@ a {
 }
 
 .topbar h1 {
-  font-size: clamp(28px, 4vw, 54px);
+  font-size: clamp(26px, 3.2vw, 46px);
   line-height: 1.02;
 }
 
@@ -133,27 +130,20 @@ button:hover {
 
 .layout {
   display: grid;
-  grid-template-columns: 360px minmax(0, 1fr);
-  gap: 18px;
+  gap: 16px;
   margin-top: 18px;
 }
 
 .panel,
-.hero-strip,
-.round {
+.hero-strip {
   background: rgba(255, 255, 255, 0.94);
   border: 1px solid rgba(219, 227, 237, 0.9);
   border-radius: 8px;
-  box-shadow: 0 12px 36px rgba(16, 24, 32, 0.07);
+  box-shadow: 0 10px 28px rgba(16, 24, 32, 0.06);
 }
 
 .seeds-panel {
-  position: sticky;
-  top: 18px;
-  align-self: start;
-  max-height: calc(100vh - 36px);
-  padding: 18px;
-  overflow: auto;
+  padding: 16px;
 }
 
 .panel-head {
@@ -176,7 +166,7 @@ button:hover {
 }
 
 .hint {
-  margin: 12px 0 16px;
+  margin: 8px 0 14px;
   color: var(--muted);
   font-size: 14px;
   line-height: 1.55;
@@ -184,6 +174,7 @@ button:hover {
 
 .seed-list {
   display: grid;
+  grid-template-columns: repeat(4, minmax(240px, 1fr));
   gap: 10px;
 }
 
@@ -228,7 +219,7 @@ button:hover {
 
 .seed-fields {
   display: grid;
-  grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr) 72px;
+  grid-template-columns: minmax(0, 1.4fr) 88px 54px;
   gap: 8px;
 }
 
@@ -254,14 +245,14 @@ input:focus {
 
 .hero-strip {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 390px;
-  gap: 18px;
+  grid-template-columns: minmax(0, 1fr) minmax(360px, 520px);
+  gap: 20px;
   align-items: stretch;
-  padding: 20px;
+  padding: 18px;
 }
 
 .hero-strip h2 {
-  font-size: 28px;
+  font-size: 26px;
 }
 
 .hero-strip p {
@@ -281,8 +272,8 @@ input:focus {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  min-height: 120px;
-  padding: 12px;
+  min-height: 112px;
+  padding: 10px;
   border: 1px solid var(--line);
   border-radius: 8px;
   background: var(--surface-soft);
@@ -354,9 +345,9 @@ input:focus {
 }
 
 .podium-logo {
-  width: 48px;
-  height: 48px;
-  margin-top: 12px;
+  width: 44px;
+  height: 44px;
+  margin-top: 10px;
   border-radius: 8px;
 }
 
@@ -365,8 +356,8 @@ input:focus {
 }
 
 .podium-team {
-  margin-top: 10px;
-  font-size: 18px;
+  margin-top: 8px;
+  font-size: 16px;
   font-weight: 900;
   line-height: 1.15;
 }
@@ -375,13 +366,18 @@ input:focus {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  margin: 14px 0;
+  margin: 12px 0;
+  padding: 4px;
+  width: fit-content;
+  background: rgba(255, 255, 255, 0.74);
+  border: 1px solid var(--line);
+  border-radius: 8px;
 }
 
 .tab {
   color: var(--muted);
-  background: rgba(255, 255, 255, 0.72);
-  border-color: var(--line);
+  background: transparent;
+  border-color: transparent;
 }
 
 .tab.active {
@@ -392,25 +388,25 @@ input:focus {
 
 .bracket {
   display: grid;
-  gap: 16px;
+  gap: 14px;
   align-items: start;
   padding-bottom: 24px;
 }
 
 .bracket-band {
   min-width: 0;
-  padding: 14px;
+  padding: 12px 12px 14px;
   overflow-x: auto;
-  background: rgba(255, 255, 255, 0.94);
-  border: 1px solid rgba(219, 227, 237, 0.95);
+  background: #ffffff;
+  border: 1px solid var(--line);
   border-radius: 8px;
-  box-shadow: 0 12px 36px rgba(16, 24, 32, 0.07);
+  box-shadow: 0 8px 22px rgba(16, 24, 32, 0.05);
 }
 
 .bracket-band-lower {
   background:
-    linear-gradient(90deg, rgba(215, 73, 73, 0.06), transparent 46%),
-    rgba(255, 255, 255, 0.94);
+    linear-gradient(90deg, rgba(215, 73, 73, 0.045), transparent 42%),
+    #ffffff;
 }
 
 .band-title {
@@ -421,7 +417,7 @@ input:focus {
   align-items: baseline;
   justify-content: space-between;
   gap: 12px;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
   padding: 0 2px;
 }
 
@@ -438,9 +434,10 @@ input:focus {
 
 .bracket-lane {
   display: grid;
-  grid-auto-columns: minmax(252px, 1fr);
+  grid-auto-columns: minmax(248px, 1fr);
   grid-auto-flow: column;
-  gap: 28px;
+  align-items: start;
+  gap: 34px;
   min-width: max-content;
   overflow: visible;
   padding: 2px 10px 4px 0;
@@ -449,7 +446,10 @@ input:focus {
 .round {
   position: relative;
   display: grid;
-  min-width: 252px;
+  grid-template-rows: auto auto;
+  align-content: start;
+  align-self: start;
+  min-width: 248px;
   padding: 0;
   background: transparent;
   border: 0;
@@ -463,9 +463,9 @@ input:focus {
   align-items: baseline;
   justify-content: space-between;
   gap: 12px;
-  min-height: 34px;
-  margin-bottom: 10px;
-  padding: 8px 10px;
+  min-height: 32px;
+  margin-bottom: 8px;
+  padding: 7px 9px;
   color: white;
   background: #263746;
   border-radius: 6px 6px 0 0;
@@ -486,9 +486,8 @@ input:focus {
 .round-matches {
   position: relative;
   display: grid;
-  gap: 18px;
+  gap: 16px;
   align-content: center;
-  min-height: 100%;
   overflow: visible;
 }
 
@@ -518,7 +517,7 @@ input:focus {
   border: 1px solid var(--line);
   border-radius: 6px;
   background: white;
-  box-shadow: 0 8px 18px rgba(16, 24, 32, 0.06);
+  box-shadow: 0 6px 14px rgba(16, 24, 32, 0.05);
 }
 
 .round:not(:last-child) .match::after {
@@ -526,7 +525,7 @@ input:focus {
   z-index: 0;
   top: 50%;
   left: calc(100% + 1px);
-  width: 27px;
+  width: 33px;
   height: 3px;
   content: "";
   background: var(--connector);
@@ -539,7 +538,7 @@ input:focus {
 .round[data-count="4"] .match:nth-child(3)::before {
   position: absolute;
   z-index: 0;
-  left: calc(100% + 27px);
+  left: calc(100% + 33px);
   width: 3px;
   content: "";
   background: var(--connector);
@@ -563,14 +562,14 @@ input:focus {
 }
 
 .round[data-count="1"]:not(:last-child) .match::after {
-  width: 28px;
+  width: 34px;
 }
 
 .match-meta {
   display: flex;
   justify-content: space-between;
   gap: 10px;
-  padding: 6px 9px;
+  padding: 5px 9px;
   color: white;
   background: #4f5d6b;
   border-radius: 5px 5px 0 0;
@@ -585,7 +584,7 @@ input:focus {
   gap: 8px;
   width: 100%;
   min-height: 48px;
-  padding: 8px 9px;
+  padding: 7px 9px;
   text-align: left;
   background: white;
   border: 0;
@@ -632,7 +631,7 @@ input:focus {
 
 .pending {
   min-height: 48px;
-  padding: 14px 10px;
+  padding: 13px 10px;
   color: var(--muted);
   border-top: 1px dashed var(--line);
   border-radius: 0;
@@ -640,13 +639,8 @@ input:focus {
 }
 
 @media (max-width: 1180px) {
-  .layout {
-    grid-template-columns: 1fr;
-  }
-
-  .seeds-panel {
-    position: static;
-    max-height: none;
+  .seed-list {
+    grid-template-columns: repeat(2, minmax(240px, 1fr));
   }
 
   .bracket-lane {
@@ -674,7 +668,8 @@ input:focus {
   }
 
   .seed-fields,
-  .podium {
+  .podium,
+  .seed-list {
     grid-template-columns: 1fr;
   }
 
