@@ -250,6 +250,7 @@ function renderBracket() {
   });
 
   progressBadge.textContent = `${completedMatches()} / ${PICK_IDS.length}`;
+  scheduleConnectorDraw();
 }
 
 function tabTitle(tab) {
@@ -303,6 +304,85 @@ function renderMatch(match) {
       ${slot("b", match.b)}
     </article>
   `;
+}
+
+function scheduleConnectorDraw() {
+  requestAnimationFrame(drawConnectors);
+}
+
+function drawConnectors() {
+  document.querySelectorAll(".connector-layer").forEach((layer) => layer.remove());
+
+  document.querySelectorAll(".bracket-lane").forEach((lane) => {
+    const rounds = [...lane.querySelectorAll(".round")];
+    if (rounds.length < 2) return;
+
+    const laneRect = lane.getBoundingClientRect();
+    const width = Math.max(lane.scrollWidth, lane.clientWidth);
+    const height = Math.max(lane.scrollHeight, lane.clientHeight);
+    const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    svg.classList.add("connector-layer");
+    svg.setAttribute("width", width);
+    svg.setAttribute("height", height);
+    svg.setAttribute("viewBox", `0 0 ${width} ${height}`);
+
+    for (let index = 0; index < rounds.length - 1; index += 1) {
+      const current = [...rounds[index].querySelectorAll(".match")];
+      const next = [...rounds[index + 1].querySelectorAll(".match")];
+      if (!current.length || !next.length) continue;
+
+      if (current.length === 4 && next.length >= 2) {
+        addMergedPath(svg, lane, laneRect, current.slice(0, 2), next[0]);
+        addMergedPath(svg, lane, laneRect, current.slice(2, 4), next[1]);
+        continue;
+      }
+
+      if (current.length === 2 && next.length === 1) {
+        addMergedPath(svg, lane, laneRect, current, next[0]);
+        continue;
+      }
+
+      const count = Math.min(current.length, next.length);
+      for (let item = 0; item < count; item += 1) {
+        addDirectPath(svg, lane, laneRect, current[item], next[item]);
+      }
+    }
+
+    lane.prepend(svg);
+  });
+}
+
+function matchPoint(element, side, lane, laneRect) {
+  const rect = element.getBoundingClientRect();
+  const x = side === "right" ? rect.right - laneRect.left : rect.left - laneRect.left;
+  return {
+    x: x + lane.scrollLeft,
+    y: rect.top - laneRect.top + rect.height / 2 + lane.scrollTop,
+  };
+}
+
+function addMergedPath(svg, lane, laneRect, sources, target) {
+  const targetPoint = matchPoint(target, "left", lane, laneRect);
+  const sourcePoints = sources.map((source) => matchPoint(source, "right", lane, laneRect));
+  const mergeX = Math.round((Math.max(...sourcePoints.map((point) => point.x)) + targetPoint.x) / 2);
+  const commands = sourcePoints
+    .map((point) => `M ${point.x} ${point.y} H ${mergeX} V ${targetPoint.y}`)
+    .join(" ");
+  addPath(svg, `${commands} M ${mergeX} ${targetPoint.y} H ${targetPoint.x}`);
+}
+
+function addDirectPath(svg, lane, laneRect, source, target) {
+  const sourcePoint = matchPoint(source, "right", lane, laneRect);
+  const targetPoint = matchPoint(target, "left", lane, laneRect);
+  const mergeX = Math.round((sourcePoint.x + targetPoint.x) / 2);
+  addPath(svg, `M ${sourcePoint.x} ${sourcePoint.y} H ${mergeX} V ${targetPoint.y} H ${targetPoint.x}`);
+}
+
+function addPath(svg, d) {
+  const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+  path.classList.add("connector-path");
+  path.setAttribute("d", d);
+  svg.appendChild(path);
 }
 
 function clearInvalidPicks() {
@@ -407,5 +487,7 @@ document.addEventListener(
   },
   true,
 );
+
+window.addEventListener("resize", scheduleConnectorDraw);
 
 render();
