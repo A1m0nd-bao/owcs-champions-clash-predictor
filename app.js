@@ -162,10 +162,13 @@ function buildMatches() {
 
   return [
     { title: "胜者组四分之一决赛", group: "upper", matches: [ubqf1, ubqf2, ubqf3, ubqf4] },
-    { title: "胜者组半决赛与决赛", group: "upper", matches: [ubsf1, ubsf2, ubf] },
-    { title: "败者组第一轮", group: "lower", matches: [lbr1a, lbr1b] },
-    { title: "败者组淘汰段", group: "lower", matches: [lbqf1, lbqf2, lbsf, lbf] },
+    { title: "胜者组半决赛", group: "upper", matches: [ubsf1, ubsf2] },
+    { title: "胜者组决赛", group: "upper", matches: [ubf] },
     { title: "总决赛", group: "finals", matches: [gf] },
+    { title: "败者组第一轮", group: "lower", matches: [lbr1a, lbr1b] },
+    { title: "败者组四分之一决赛", group: "lower", matches: [lbqf1, lbqf2] },
+    { title: "败者组半决赛", group: "lower", matches: [lbsf] },
+    { title: "败者组决赛", group: "lower", matches: [lbf] },
   ];
 }
 
@@ -218,21 +221,57 @@ function renderPodium() {
 function renderBracket() {
   const rounds = buildMatches();
   bracket.innerHTML = "";
-  rounds.forEach((round) => {
-    const isHidden = activeTab !== "all" && activeTab !== round.group;
-    const section = document.createElement("section");
-    section.className = `round${isHidden ? " hidden" : ""}`;
-    section.dataset.group = round.group;
-    section.innerHTML = `
+
+  const groups = activeTab === "all"
+    ? [
+        { key: "upper", title: "胜者组与总决赛", rounds: rounds.filter((round) => round.group === "upper" || round.group === "finals") },
+        { key: "lower", title: "败者组", rounds: rounds.filter((round) => round.group === "lower") },
+      ]
+    : [
+        { key: activeTab, title: tabTitle(activeTab), rounds: rounds.filter((round) => round.group === activeTab) },
+      ];
+
+  groups.forEach((group) => {
+    const visibleRounds = group.rounds;
+    if (!visibleRounds.length) return;
+
+    const band = document.createElement("section");
+    band.className = `bracket-band bracket-band-${group.key}`;
+    band.innerHTML = `
+      <div class="band-title">
+        <h3>${group.title}</h3>
+        <span>${visibleRounds.reduce((sum, round) => sum + round.matches.length, 0)} 场</span>
+      </div>
+      <div class="bracket-lane">
+        ${visibleRounds.map(renderRound).join("")}
+      </div>
+    `;
+    bracket.appendChild(band);
+  });
+
+  progressBadge.textContent = `${completedMatches()} / ${PICK_IDS.length}`;
+}
+
+function tabTitle(tab) {
+  return {
+    upper: "胜者组",
+    lower: "败者组",
+    finals: "总决赛",
+  }[tab] || "全部赛程";
+}
+
+function renderRound(round) {
+  return `
+    <section class="round" data-group="${round.group}" data-count="${round.matches.length}">
       <div class="round-title">
-        <h3>${round.title}</h3>
+        <h4>${round.title}</h4>
         <span>${round.matches.length} 场</span>
       </div>
-      ${round.matches.map(renderMatch).join("")}
-    `;
-    bracket.appendChild(section);
-  });
-  progressBadge.textContent = `${completedMatches()} / ${PICK_IDS.length}`;
+      <div class="round-matches">
+        ${round.matches.map(renderMatch).join("")}
+      </div>
+    </section>
+  `;
 }
 
 function renderMatch(match) {
@@ -255,7 +294,7 @@ function renderMatch(match) {
   };
 
   return `
-    <article class="match">
+    <article class="match" data-match-id="${match.id}">
       <div class="match-meta">
         <span>${match.label}</span>
         <span>${match.type}</span>
