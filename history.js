@@ -1,5 +1,42 @@
 const EVENTS = [
   {
+    year: 2026,
+    name: "OWCS 2026 Champions Clash",
+    date: "May 22-24, 2026",
+    location: "Tachikawa, Tokyo",
+    teams: 8,
+    prize: "众筹奖金池",
+    format: "8 队双败淘汰。胜者组首轮和败者组首轮 BO3，其余常规淘汰赛 BO5，总决赛 BO7。",
+    source: "https://liquipedia.net/overwatch/Overwatch_Champions_Series/2026/Champions_Clash",
+    podium: ["Crazy Raccoon", "Twisted Minds", "ZETA DIVISION", "Virtus.pro"],
+    stages: [
+      {
+        title: "胜者组关键线",
+        matches: [
+          ["Crazy Raccoon", "ZETA DIVISION", "3-1", "Crazy Raccoon"],
+        ],
+      },
+      {
+        title: "败者组关键线",
+        matches: [
+          ["Virtus.pro", "Twisted Minds", "1-3", "Twisted Minds"],
+          ["ZETA DIVISION", "Twisted Minds", "1-3", "Twisted Minds"],
+        ],
+      },
+      {
+        title: "总决赛",
+        matches: [
+          ["Crazy Raccoon", "Twisted Minds", "4-3", "Crazy Raccoon"],
+        ],
+      },
+      {
+        title: "赛事奖项",
+        matches: [],
+        note: "Tournament MVP：Junbin（Crazy Raccoon）。冠军 Crazy Raccoon 获得 Midseason Championship 资格。",
+      },
+    ],
+  },
+  {
     year: 2025,
     name: "OWCS 2025 World Finals",
     date: "Nov 26-30, 2025",

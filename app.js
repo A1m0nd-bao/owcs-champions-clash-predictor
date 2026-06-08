@@ -72,6 +72,23 @@ const PICK_IDS = [
   "lbr1a", "lbr1b", "lbqf1", "lbqf2", "lbsf", "lbf", "gf",
 ];
 
+const OFFICIAL_PICKS = {
+  ubqf1: "tm",
+  ubqf2: "asia2",
+  ubqf3: "vp",
+  ubqf4: "asia1",
+  ubsf1: "asia2",
+  ubsf2: "asia1",
+  ubf: "asia2",
+  lbr1a: "df",
+  lbr1b: "wbg",
+  lbqf1: "tm",
+  lbqf2: "vp",
+  lbsf: "tm",
+  lbf: "tm",
+  gf: "asia2",
+};
+
 let state = loadState();
 let activeTab = "all";
 
@@ -463,6 +480,11 @@ document.addEventListener("click", (event) => {
 
   if (event.target.id === "resetAll") {
     state = { teams: structuredClone(DEFAULT_TEAMS), picks: {} };
+    render();
+  }
+
+  if (event.target.id === "loadOfficial") {
+    state = { teams: structuredClone(DEFAULT_TEAMS), picks: { ...OFFICIAL_PICKS } };
     render();
   }
 });
