@@ -154,6 +154,7 @@ const PICK_IDS = [
 
 let state = loadState();
 let activeTab = "all";
+let viewMode = "horizontal";
 let collapsedBands = new Set(["gb", "playoffs"]);
 
 const seedList = document.querySelector("#seedList");
@@ -334,6 +335,7 @@ function renderPodium() {
 function renderBracket() {
   const rounds = buildMatches();
   bracket.innerHTML = "";
+  bracket.className = `bracket view-${viewMode}`;
 
   const groups = activeTab === "all"
     ? [
@@ -702,9 +704,17 @@ document.addEventListener("click", (event) => {
   }
 
   const tab = event.target.closest(".tab");
-  if (tab) {
+  if (tab?.dataset.tab) {
     activeTab = tab.dataset.tab;
-    document.querySelectorAll(".tab").forEach((item) => item.classList.toggle("active", item === tab));
+    document.querySelectorAll("[data-tab]").forEach((item) => item.classList.toggle("active", item === tab));
+    renderBracket();
+    return;
+  }
+
+  const view = event.target.closest("[data-view]");
+  if (view) {
+    viewMode = view.dataset.view;
+    document.querySelectorAll("[data-view]").forEach((item) => item.classList.toggle("active", item === view));
     renderBracket();
     return;
   }

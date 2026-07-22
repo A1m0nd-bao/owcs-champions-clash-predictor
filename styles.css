@@ -376,6 +376,22 @@ input:focus {
   border-radius: 8px;
 }
 
+.board-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.board-toolbar .tabs {
+  margin: 12px 0;
+}
+
+.view-tabs {
+  margin-left: auto;
+}
+
 .tab {
   color: var(--muted);
   background: transparent;
@@ -542,6 +558,66 @@ input:focus {
 
 .advance-match {
   border-color: rgba(45, 143, 98, 0.26);
+}
+
+.bracket.view-vertical .bracket-band {
+  overflow-x: visible;
+}
+
+.bracket.view-vertical .group-bracket {
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  min-width: 0;
+}
+
+.bracket.view-vertical .group-path {
+  align-content: start;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.58);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+
+.bracket.view-vertical .group-path-title {
+  position: static;
+}
+
+.bracket.view-vertical .bracket-lane {
+  grid-auto-flow: row;
+  grid-auto-columns: unset;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  min-width: 0;
+  padding: 0;
+}
+
+.bracket.view-vertical .round {
+  min-width: 0;
+}
+
+.bracket.view-vertical .round-matches,
+.bracket.view-vertical .round[data-count="1"] .round-matches,
+.bracket.view-vertical .round[data-count="2"] .round-matches {
+  align-content: start;
+  min-height: 0;
+}
+
+.bracket.view-vertical .round + .round {
+  position: relative;
+  margin-top: 10px;
+}
+
+.bracket.view-vertical .round + .round::before {
+  position: absolute;
+  top: -18px;
+  left: 24px;
+  width: 3px;
+  height: 14px;
+  background: var(--connector);
+  content: "";
+}
+
+.bracket.view-vertical .connector-layer {
+  display: none;
 }
 
 .round {
@@ -764,6 +840,13 @@ input:focus {
 
   .top-actions {
     justify-content: flex-start;
+  }
+
+  .board-toolbar,
+  .view-tabs {
+    align-items: flex-start;
+    justify-content: flex-start;
+    margin-left: 0;
   }
 
   .seed-fields,

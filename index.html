@@ -7,7 +7,7 @@
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
     <title>OWCS 世界赛预测器</title>
-    <link rel="stylesheet" href="./styles.css?v=20260723-midseason-4" />
+    <link rel="stylesheet" href="./styles.css?v=20260723-midseason-5" />
   </head>
   <body>
     <div class="app-shell">
@@ -38,12 +38,19 @@
             <div id="podium" class="podium" aria-label="预测前三名"></div>
           </section>
 
-          <nav class="tabs" aria-label="赛程区域">
-            <button class="tab active" type="button" data-tab="all">全部</button>
-            <button class="tab" type="button" data-tab="ga">Group A</button>
-            <button class="tab" type="button" data-tab="gb">Group B</button>
-            <button class="tab" type="button" data-tab="playoffs">季后赛</button>
-          </nav>
+          <div class="board-toolbar">
+            <nav class="tabs" aria-label="赛程区域">
+              <button class="tab active" type="button" data-tab="all">全部</button>
+              <button class="tab" type="button" data-tab="ga">Group A</button>
+              <button class="tab" type="button" data-tab="gb">Group B</button>
+              <button class="tab" type="button" data-tab="playoffs">季后赛</button>
+            </nav>
+
+            <nav class="tabs view-tabs" aria-label="预览模式">
+              <button class="tab active" type="button" data-view="horizontal">横向预览</button>
+              <button class="tab" type="button" data-view="vertical">纵向预览</button>
+            </nav>
+          </div>
 
           <div id="bracket" class="bracket"></div>
         </section>
@@ -64,6 +71,6 @@
       </main>
     </div>
 
-    <script src="./app.js?v=20260723-midseason-4"></script>
+    <script src="./app.js?v=20260723-midseason-5"></script>
   </body>
 </html>
