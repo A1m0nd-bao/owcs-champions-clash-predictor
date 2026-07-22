@@ -145,7 +145,7 @@ const DEFAULT_TEAMS = [
   },
 ];
 
-const STORAGE_KEY = "owcs-midseason-2026-predictor-v1";
+const STORAGE_KEY = "owcs-midseason-2026-predictor-v2";
 const PICK_IDS = [
   "ga_o1", "ga_o2", "ga_o3", "ga_o4", "ga_u1", "ga_u2", "ga_l1", "ga_l2", "ga_d1", "ga_d2",
   "gb_o1", "gb_o2", "gb_o3", "gb_o4", "gb_u1", "gb_u2", "gb_l1", "gb_l2", "gb_d1", "gb_d2",
@@ -231,16 +231,16 @@ function groupMatches(prefix, ids) {
   const lr1 = result(l1.id, l1.a, l1.b);
   const lr2 = result(l2.id, l2.a, l2.b);
 
-  const d1 = { id: `${prefix}_d1`, group: prefix, type: "Ft2", label: "最终出线 1", a: ur2.loser, b: lr1.winner };
-  const d2 = { id: `${prefix}_d2`, group: prefix, type: "Ft2", label: "最终出线 2", a: ur1.loser, b: lr2.winner };
+  const d1 = { id: `${prefix}_d1`, group: prefix, type: "Ft2", label: "最终出线 1", a: ur1.loser, b: lr1.winner };
+  const d2 = { id: `${prefix}_d2`, group: prefix, type: "Ft2", label: "最终出线 2", a: ur2.loser, b: lr2.winner };
   const dr1 = result(d1.id, d1.a, d1.b);
   const dr2 = result(d2.id, d2.a, d2.b);
 
   return {
     rounds: [
-      { title: "首轮", group: prefix, matches: [o1, o2, o3, o4] },
-      { title: "胜者出线战", group: prefix, matches: [u1, u2] },
-      { title: "败者淘汰战", group: prefix, matches: [l1, l2] },
+      { title: "四分之一决赛", group: prefix, matches: [o1, o2, o3, o4] },
+      { title: "半决赛", group: prefix, matches: [u1, u2] },
+      { title: "败者半决赛", group: prefix, matches: [l1, l2] },
       { title: "最终出线战", group: prefix, matches: [d1, d2] },
     ],
     qualifiers: {
@@ -346,22 +346,137 @@ function renderBracket() {
 
   groups.forEach((group) => {
     if (!group.rounds.length) return;
-    const band = document.createElement("section");
-    band.className = `bracket-band bracket-band-${group.key}`;
-    band.innerHTML = `
-      <div class="band-title">
-        <h3>${group.title}</h3>
-        <span>${group.rounds.reduce((sum, round) => sum + round.matches.length, 0)} 场</span>
-      </div>
-      <div class="bracket-lane">
-        ${group.rounds.map(renderRound).join("")}
-      </div>
-    `;
-    bracket.appendChild(band);
+    bracket.appendChild(group.key === "playoffs" ? renderPlayoffBand(group) : renderGroupBand(group));
   });
 
   progressBadge.textContent = `${completedMatches()} / ${PICK_IDS.length}`;
   scheduleConnectorDraw();
+}
+
+function renderPlayoffBand(group) {
+  const band = document.createElement("section");
+  band.className = `bracket-band bracket-band-${group.key}`;
+  band.innerHTML = `
+    <div class="band-title">
+      <h3>${group.title}</h3>
+      <span>${group.rounds.reduce((sum, round) => sum + round.matches.length, 0)} 场</span>
+    </div>
+    <div class="bracket-lane playoff-lane">
+      ${group.rounds.map(renderRound).join("")}
+    </div>
+  `;
+  return band;
+}
+
+function renderGroupBand(group) {
+  const prefix = group.key;
+  const groupName = prefix === "ga" ? "A" : "B";
+  const opening = group.rounds[0].matches;
+  const upper = group.rounds[1].matches;
+  const lower = group.rounds[2].matches;
+  const decider = group.rounds[3].matches;
+
+  const band = document.createElement("section");
+  band.className = `bracket-band bracket-band-${group.key} group-band`;
+  band.innerHTML = `
+    <div class="band-title">
+      <h3>${group.title}</h3>
+      <span>${group.rounds.reduce((sum, round) => sum + round.matches.length, 0)} 场</span>
+    </div>
+    <div class="group-bracket">
+      ${renderGroupPath({
+        title: "上半区胜者路线",
+        rounds: [
+          { title: "上半区四分之一决赛", group: prefix, matches: opening.slice(0, 2) },
+          { title: "上半决赛", group: prefix, matches: [upper[0]] },
+        ],
+        advanceTitle: "晋级",
+        advanceLabel: `${groupName}1`,
+        advanceTeam: result(upper[0].id, upper[0].a, upper[0].b).winner,
+        pending: "等待上半决赛胜者",
+      })}
+      ${renderGroupPath({
+        title: "下半区胜者路线",
+        rounds: [
+          { title: "下半区四分之一决赛", group: prefix, matches: opening.slice(2, 4) },
+          { title: "下半决赛", group: prefix, matches: [upper[1]] },
+        ],
+        advanceTitle: "晋级",
+        advanceLabel: `${groupName}2`,
+        advanceTeam: result(upper[1].id, upper[1].a, upper[1].b).winner,
+        pending: "等待下半决赛胜者",
+      })}
+      ${renderGroupPath({
+        title: "上半区败者路线",
+        rounds: [
+          { title: "败者半决赛", group: prefix, matches: [lower[0]] },
+          { title: "最终出线战", group: prefix, matches: [decider[0]] },
+        ],
+        advanceTitle: "晋级",
+        advanceLabel: `${groupName}3`,
+        advanceTeam: result(decider[0].id, decider[0].a, decider[0].b).winner,
+        pending: "等待最终出线战胜者",
+      })}
+      ${renderGroupPath({
+        title: "下半区败者路线",
+        rounds: [
+          { title: "败者半决赛", group: prefix, matches: [lower[1]] },
+          { title: "最终出线战", group: prefix, matches: [decider[1]] },
+        ],
+        advanceTitle: "晋级",
+        advanceLabel: `${groupName}4`,
+        advanceTeam: result(decider[1].id, decider[1].a, decider[1].b).winner,
+        pending: "等待最终出线战胜者",
+      })}
+    </div>
+  `;
+  return band;
+}
+
+function renderGroupPath({ title, rounds, advanceTitle, advanceLabel, advanceTeam, pending }) {
+  return `
+    <section class="group-path" aria-label="${escapeAttr(title)}">
+      <p class="group-path-title">${escapeHtml(title)}</p>
+      <div class="bracket-lane group-lane">
+        ${rounds.map(renderRound).join("")}
+        ${renderAdvanceRound(advanceTitle, advanceLabel, advanceTeam, pending)}
+      </div>
+    </section>
+  `;
+}
+
+function renderAdvanceRound(title, label, item, pending) {
+  return `
+    <section class="round advance-round" data-count="1">
+      <div class="round-title">
+        <h4>${escapeHtml(title)}</h4>
+        <span>${escapeHtml(label)}</span>
+      </div>
+      <div class="round-matches">
+        ${renderAdvanceSlot(item, pending)}
+      </div>
+    </section>
+  `;
+}
+
+function renderAdvanceSlot(item, pending) {
+  return `
+    <article class="match advance-match">
+      <div class="match-meta">
+        <span>晋级名额</span>
+        <span>Playoffs</span>
+      </div>
+      ${item ? `
+        <div class="advance-team">
+          ${renderLogo(item, "match-logo")}
+          <span class="team-copy">
+            <span class="team-name">${escapeHtml(item.name)}</span>
+            <span class="team-seed">Group ${escapeHtml(item.group)} / ${seedLabel(item)}</span>
+          </span>
+        </div>
+      ` : `<div class="pending">${escapeHtml(pending)}</div>`}
+    </article>
+  `;
 }
 
 function tabTitle(tab) {
@@ -425,7 +540,7 @@ function drawConnectors() {
   document.querySelectorAll(".connector-layer").forEach((layer) => layer.remove());
 
   document.querySelectorAll(".bracket-lane").forEach((lane) => {
-    if (!lane.closest(".bracket-band-playoffs")) return;
+    if (!lane.classList.contains("playoff-lane") && !lane.classList.contains("group-lane")) return;
 
     const rounds = [...lane.querySelectorAll(".round")];
     if (rounds.length < 2) return;
