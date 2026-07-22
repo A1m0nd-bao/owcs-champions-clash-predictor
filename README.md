@@ -7,6 +7,10 @@
 - Liquipedia: Overwatch Champions Series 2026 Midseason Championship
 - 481651.xyz: OWCS 数据可视化
 
+线上访问：
+
+- https://a1m0nd-bao.github.io/owcs-champions-clash-predictor/
+
 直接打开 `index.html` 即可本地使用。
 
 - `index.html`: 2026 Midseason Championship 预测器
