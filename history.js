@@ -35,6 +35,42 @@ const EVENTS = [
         note: "Tournament MVP：Junbin（Crazy Raccoon）。冠军 Crazy Raccoon 获得 Midseason Championship 资格。",
       },
     ],
+    bracket: [
+      {
+        title: "胜者组四分之一决赛",
+        matches: [
+          ["Twisted Minds", "All Gamers", "2-0", "Twisted Minds"],
+          ["Dallas Fuel", "Crazy Raccoon", "0-2", "Crazy Raccoon"],
+          ["Weibo Gaming", "Virtus.pro", "1-2", "Virtus.pro"],
+          ["ZETA DIVISION", "Spacestation Gaming", "2-0", "ZETA DIVISION"],
+        ],
+      },
+      {
+        title: "胜者组半决赛",
+        matches: [
+          ["Twisted Minds", "Crazy Raccoon", "0-3", "Crazy Raccoon"],
+          ["Virtus.pro", "ZETA DIVISION", "1-3", "ZETA DIVISION"],
+        ],
+      },
+      {
+        title: "胜者组决赛 / 总决赛",
+        matches: [
+          ["Crazy Raccoon", "ZETA DIVISION", "3-1", "Crazy Raccoon"],
+          ["Crazy Raccoon", "Twisted Minds", "4-3", "Crazy Raccoon"],
+        ],
+      },
+      {
+        title: "败者组",
+        matches: [
+          ["All Gamers", "Dallas Fuel", "0-2", "Dallas Fuel"],
+          ["Weibo Gaming", "Spacestation Gaming", "2-0", "Weibo Gaming"],
+          ["Virtus.pro", "Dallas Fuel", "3-1", "Virtus.pro"],
+          ["Twisted Minds", "Weibo Gaming", "3-2", "Twisted Minds"],
+          ["Virtus.pro", "Twisted Minds", "1-3", "Twisted Minds"],
+          ["ZETA DIVISION", "Twisted Minds", "1-3", "Twisted Minds"],
+        ],
+      },
+    ],
   },
   {
     year: 2025,
@@ -253,8 +289,34 @@ function renderEvent(event) {
         <div class="stage-board">
           ${event.stages.map(renderStage).join("")}
         </div>
+        ${event.bracket ? renderHistoryBracket(event.bracket) : ""}
       </div>
     </article>
+  `;
+}
+
+function renderHistoryBracket(rounds) {
+  return `
+    <div class="history-bracket" aria-label="官方晋级图">
+      <div class="history-bracket-head">
+        <h3>官方晋级图</h3>
+        <span>完整赛程路径</span>
+      </div>
+      <div class="history-bracket-lane">
+        ${rounds.map((round) => `
+          <section class="history-round">
+            <h4>${round.title}</h4>
+            ${round.matches.map(([a, b, score, winner]) => `
+              <div class="history-match">
+                <span class="${winner === a ? "winner" : ""}">${a}</span>
+                <span class="score-pill">${score}</span>
+                <span class="${winner === b ? "winner" : ""}">${b}</span>
+              </div>
+            `).join("")}
+          </section>
+        `).join("")}
+      </div>
+    </div>
   `;
 }
 

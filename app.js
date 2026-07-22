@@ -1,58 +1,92 @@
 const DEFAULT_TEAMS = [
   {
+    id: "vp",
+    name: "Virtus.pro",
+    region: "EMEA",
+    seed: "1",
+    group: "A",
+    logo: "./assets/logos/virtus-pro.png",
+    color: "#f05a28",
+  },
+  {
+    id: "ninez",
+    name: "9z Team",
+    region: "SA",
+    seed: "1",
+    group: "A",
+    logo: "",
+    color: "#5b35d5",
+  },
+  {
+    id: "t1",
+    name: "T1",
+    region: "Asia",
+    seed: "3",
+    group: "A",
+    logo: "./assets/logos/t1.png",
+    color: "#e2012d",
+  },
+  {
     id: "tm",
     name: "Twisted Minds",
     region: "EMEA",
-    seed: "1",
+    seed: "3",
+    group: "A",
     logo: "./assets/logos/twisted-minds.png",
     color: "#161616",
-  },
-  {
-    id: "ag",
-    name: "All Gamers",
-    region: "China",
-    seed: "2",
-    logo: "./assets/logos/all-gamers.png",
-    color: "#c9282d",
-  },
-  {
-    id: "df",
-    name: "Dallas Fuel",
-    region: "NA",
-    seed: "1",
-    logo: "./assets/logos/dallas-fuel.png",
-    color: "#0072ce",
-  },
-  {
-    id: "asia2",
-    name: "Crazy Raccoon",
-    region: "Asia",
-    seed: "2",
-    logo: "./assets/logos/crazy-raccoon.png",
-    color: "#e7423a",
   },
   {
     id: "wbg",
     name: "Weibo Gaming",
     region: "China",
     seed: "1",
+    group: "A",
     logo: "./assets/logos/weibo-gaming.png",
     color: "#e51b23",
   },
   {
-    id: "vp",
-    name: "Virtus.pro",
-    region: "EMEA",
-    seed: "2",
-    logo: "./assets/logos/virtus-pro.png",
-    color: "#f05a28",
+    id: "tl",
+    name: "Team Liquid",
+    region: "NA",
+    seed: "3",
+    group: "A",
+    logo: "./assets/logos/team-liquid.png",
+    color: "#1b4f8f",
   },
   {
-    id: "asia1",
-    name: "ZETA DIVISION",
-    region: "Asia",
+    id: "df",
+    name: "Dallas Fuel",
+    region: "NA",
     seed: "1",
-    logo: "./assets/logos/zeta-division.png",
+    group: "A",
+    logo: "./assets/logos/dallas-fuel.png",
+    color: "#0072ce",
+  },
+  {
+    id: "tf",
+    name: "Team Falcons",
+    region: "Invite",
+    seed: "2025",
+    group: "A",
+    logo: "./assets/logos/team-falcons.png",
+    color: "#00a46c",
+  },
+  {
+    id: "cr",
+    name: "Crazy Raccoon",
+    region: "Invite",
+    seed: "CC",
+    group: "B",
+    logo: "./assets/logos/crazy-raccoon.png",
+    color: "#e7423a",
+  },
+  {
+    id: "secret",
+    name: "Team Secret",
+    region: "Asia",
+    seed: "Pacific",
+    group: "B",
+    logo: "./assets/logos/team-secret.png",
     color: "#111111",
   },
   {
@@ -60,34 +94,63 @@ const DEFAULT_TEAMS = [
     name: "Spacestation Gaming",
     region: "NA",
     seed: "2",
+    group: "B",
     logo: "./assets/logos/spacestation-gaming.png",
     color: "#ffcc33",
   },
+  {
+    id: "jdg",
+    name: "JD Gaming",
+    region: "China",
+    seed: "2",
+    group: "B",
+    logo: "./assets/logos/jd-gaming.png",
+    color: "#d5162f",
+  },
+  {
+    id: "gk",
+    name: "Geekay Esports",
+    region: "EMEA",
+    seed: "2",
+    group: "B",
+    logo: "./assets/logos/geekay-esports.png",
+    color: "#6f2b90",
+  },
+  {
+    id: "ag",
+    name: "All Gamers",
+    region: "China",
+    seed: "3",
+    group: "B",
+    logo: "./assets/logos/all-gamers.png",
+    color: "#c9282d",
+  },
+  {
+    id: "zeta",
+    name: "ZETA DIVISION",
+    region: "Asia",
+    seed: "1",
+    group: "B",
+    logo: "./assets/logos/zeta-division.png",
+    color: "#111111",
+  },
+  {
+    id: "varrel",
+    name: "VARREL",
+    region: "Asia",
+    seed: "Japan",
+    group: "B",
+    logo: "./assets/logos/varrel.png",
+    color: "#111111",
+  },
 ];
 
-const STORAGE_KEY = "owcs-champions-clash-2026-predictor-v2";
+const STORAGE_KEY = "owcs-midseason-2026-predictor-v1";
 const PICK_IDS = [
-  "ubqf1", "ubqf2", "ubqf3", "ubqf4",
-  "ubsf1", "ubsf2", "ubf",
-  "lbr1a", "lbr1b", "lbqf1", "lbqf2", "lbsf", "lbf", "gf",
+  "ga_o1", "ga_o2", "ga_o3", "ga_o4", "ga_u1", "ga_u2", "ga_l1", "ga_l2", "ga_d1", "ga_d2",
+  "gb_o1", "gb_o2", "gb_o3", "gb_o4", "gb_u1", "gb_u2", "gb_l1", "gb_l2", "gb_d1", "gb_d2",
+  "qf1", "qf2", "qf3", "qf4", "sf1", "sf2", "third", "gf",
 ];
-
-const OFFICIAL_PICKS = {
-  ubqf1: "tm",
-  ubqf2: "asia2",
-  ubqf3: "vp",
-  ubqf4: "asia1",
-  ubsf1: "asia2",
-  ubsf2: "asia1",
-  ubf: "asia2",
-  lbr1a: "df",
-  lbr1b: "wbg",
-  lbqf1: "tm",
-  lbqf2: "vp",
-  lbsf: "tm",
-  lbf: "tm",
-  gf: "asia2",
-};
 
 let state = loadState();
 let activeTab = "all";
@@ -126,6 +189,12 @@ function saveState() {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
 }
 
+function seedLabel(item) {
+  const seed = escapeHtml(item.seed);
+  const region = escapeHtml(item.region);
+  return /^\d+$/.test(String(item.seed)) ? `${region} #${seed}` : `${region} ${seed}`;
+}
+
 function team(id) {
   return state.teams.find((item) => item.id === id) || null;
 }
@@ -140,52 +209,78 @@ function result(matchId, a, b) {
   return { winner, loser };
 }
 
+function groupMatches(prefix, ids) {
+  const t = Object.fromEntries(ids.map((id) => [id, team(id)]));
+  const o1 = { id: `${prefix}_o1`, group: prefix, type: "Ft2", label: "M1", a: t[ids[0]], b: t[ids[1]] };
+  const o2 = { id: `${prefix}_o2`, group: prefix, type: "Ft2", label: "M2", a: t[ids[2]], b: t[ids[3]] };
+  const o3 = { id: `${prefix}_o3`, group: prefix, type: "Ft2", label: "M3", a: t[ids[4]], b: t[ids[5]] };
+  const o4 = { id: `${prefix}_o4`, group: prefix, type: "Ft2", label: "M4", a: t[ids[6]], b: t[ids[7]] };
+
+  const r1 = result(o1.id, o1.a, o1.b);
+  const r2 = result(o2.id, o2.a, o2.b);
+  const r3 = result(o3.id, o3.a, o3.b);
+  const r4 = result(o4.id, o4.a, o4.b);
+
+  const u1 = { id: `${prefix}_u1`, group: prefix, type: "Ft2", label: "出线战 1", a: r1.winner, b: r2.winner };
+  const u2 = { id: `${prefix}_u2`, group: prefix, type: "Ft2", label: "出线战 2", a: r3.winner, b: r4.winner };
+  const ur1 = result(u1.id, u1.a, u1.b);
+  const ur2 = result(u2.id, u2.a, u2.b);
+
+  const l1 = { id: `${prefix}_l1`, group: prefix, type: "Ft2", label: "淘汰战 1", a: r1.loser, b: r2.loser };
+  const l2 = { id: `${prefix}_l2`, group: prefix, type: "Ft2", label: "淘汰战 2", a: r3.loser, b: r4.loser };
+  const lr1 = result(l1.id, l1.a, l1.b);
+  const lr2 = result(l2.id, l2.a, l2.b);
+
+  const d1 = { id: `${prefix}_d1`, group: prefix, type: "Ft2", label: "最终出线 1", a: ur2.loser, b: lr1.winner };
+  const d2 = { id: `${prefix}_d2`, group: prefix, type: "Ft2", label: "最终出线 2", a: ur1.loser, b: lr2.winner };
+  const dr1 = result(d1.id, d1.a, d1.b);
+  const dr2 = result(d2.id, d2.a, d2.b);
+
+  return {
+    rounds: [
+      { title: "首轮", group: prefix, matches: [o1, o2, o3, o4] },
+      { title: "胜者出线战", group: prefix, matches: [u1, u2] },
+      { title: "败者淘汰战", group: prefix, matches: [l1, l2] },
+      { title: "最终出线战", group: prefix, matches: [d1, d2] },
+    ],
+    qualifiers: {
+      first: ur1.winner,
+      second: ur2.winner,
+      third: dr1.winner,
+      fourth: dr2.winner,
+    },
+  };
+}
+
 function buildMatches() {
-  const t = Object.fromEntries(state.teams.map((item) => [item.id, item]));
+  const groupA = groupMatches("ga", ["vp", "ninez", "t1", "tm", "wbg", "tl", "df", "tf"]);
+  const groupB = groupMatches("gb", ["cr", "secret", "ssg", "jdg", "gk", "ag", "zeta", "varrel"]);
+  const a = groupA.qualifiers;
+  const b = groupB.qualifiers;
 
-  const ubqf1 = { id: "ubqf1", group: "upper", type: "Ft3", label: "QF1", a: t.tm, b: t.ag };
-  const ubqf2 = { id: "ubqf2", group: "upper", type: "Ft3", label: "QF2", a: t.df, b: t.asia2 };
-  const ubqf3 = { id: "ubqf3", group: "upper", type: "Ft3", label: "QF3", a: t.wbg, b: t.vp };
-  const ubqf4 = { id: "ubqf4", group: "upper", type: "Ft3", label: "QF4", a: t.asia1, b: t.ssg };
+  const qf1 = { id: "qf1", group: "playoffs", type: "Ft3", label: "QF1", a: a.first, b: b.fourth };
+  const qf2 = { id: "qf2", group: "playoffs", type: "Ft3", label: "QF2", a: b.second, b: a.third };
+  const qf3 = { id: "qf3", group: "playoffs", type: "Ft3", label: "QF3", a: a.second, b: b.third };
+  const qf4 = { id: "qf4", group: "playoffs", type: "Ft3", label: "QF4", a: b.first, b: a.fourth };
+  const qr1 = result(qf1.id, qf1.a, qf1.b);
+  const qr2 = result(qf2.id, qf2.a, qf2.b);
+  const qr3 = result(qf3.id, qf3.a, qf3.b);
+  const qr4 = result(qf4.id, qf4.a, qf4.b);
 
-  const qf1 = result("ubqf1", ubqf1.a, ubqf1.b);
-  const qf2 = result("ubqf2", ubqf2.a, ubqf2.b);
-  const qf3 = result("ubqf3", ubqf3.a, ubqf3.b);
-  const qf4 = result("ubqf4", ubqf4.a, ubqf4.b);
+  const sf1 = { id: "sf1", group: "playoffs", type: "Ft3", label: "SF1", a: qr1.winner, b: qr2.winner };
+  const sf2 = { id: "sf2", group: "playoffs", type: "Ft3", label: "SF2", a: qr3.winner, b: qr4.winner };
+  const sr1 = result(sf1.id, sf1.a, sf1.b);
+  const sr2 = result(sf2.id, sf2.a, sf2.b);
 
-  const ubsf1 = { id: "ubsf1", group: "upper", type: "Ft3", label: "SF1", a: qf1.winner, b: qf2.winner };
-  const ubsf2 = { id: "ubsf2", group: "upper", type: "Ft3", label: "SF2", a: qf3.winner, b: qf4.winner };
-  const sf1 = result("ubsf1", ubsf1.a, ubsf1.b);
-  const sf2 = result("ubsf2", ubsf2.a, ubsf2.b);
-
-  const ubf = { id: "ubf", group: "upper", type: "Ft3", label: "UBF", a: sf1.winner, b: sf2.winner };
-  const ubFinal = result("ubf", ubf.a, ubf.b);
-
-  const lbr1a = { id: "lbr1a", group: "lower", type: "Ft3", label: "L1", a: qf1.loser, b: qf2.loser };
-  const lbr1b = { id: "lbr1b", group: "lower", type: "Ft3", label: "L2", a: qf3.loser, b: qf4.loser };
-  const lr1a = result("lbr1a", lbr1a.a, lbr1a.b);
-  const lr1b = result("lbr1b", lbr1b.a, lbr1b.b);
-
-  const lbqf1 = { id: "lbqf1", group: "lower", type: "Ft3", label: "LQF1", a: sf1.loser, b: lr1b.winner };
-  const lbqf2 = { id: "lbqf2", group: "lower", type: "Ft3", label: "LQF2", a: sf2.loser, b: lr1a.winner };
-  const lqf1 = result("lbqf1", lbqf1.a, lbqf1.b);
-  const lqf2 = result("lbqf2", lbqf2.a, lbqf2.b);
-
-  const lbsf = { id: "lbsf", group: "lower", type: "Ft3", label: "LSF", a: lqf1.winner, b: lqf2.winner };
-  const lowerSf = result("lbsf", lbsf.a, lbsf.b);
-  const lbf = { id: "lbf", group: "lower", type: "Ft3", label: "LBF", a: ubFinal.loser, b: lowerSf.winner };
-  const lowerFinal = result("lbf", lbf.a, lbf.b);
-  const gf = { id: "gf", group: "finals", type: "Ft4", label: "GF", a: ubFinal.winner, b: lowerFinal.winner };
+  const third = { id: "third", group: "playoffs", type: "Ft3", label: "3rd", a: sr1.loser, b: sr2.loser };
+  const gf = { id: "gf", group: "playoffs", type: "Ft4", label: "GF", a: sr1.winner, b: sr2.winner };
 
   return [
-    { title: "胜者组四分之一决赛", group: "upper", matches: [ubqf1, ubqf2, ubqf3, ubqf4] },
-    { title: "胜者组半决赛", group: "upper", matches: [ubsf1, ubsf2] },
-    { title: "胜者组决赛", group: "upper", matches: [ubf] },
-    { title: "总决赛", group: "finals", matches: [gf] },
-    { title: "败者组第一轮", group: "lower", matches: [lbr1a, lbr1b] },
-    { title: "败者组四分之一决赛", group: "lower", matches: [lbqf1, lbqf2] },
-    { title: "败者组半决赛", group: "lower", matches: [lbsf] },
-    { title: "败者组决赛", group: "lower", matches: [lbf] },
+    ...groupA.rounds,
+    ...groupB.rounds,
+    { title: "四分之一决赛", group: "playoffs", matches: [qf1, qf2, qf3, qf4] },
+    { title: "半决赛", group: "playoffs", matches: [sf1, sf2] },
+    { title: "季军赛与总决赛", group: "playoffs", matches: [third, gf] },
   ];
 }
 
@@ -216,13 +311,13 @@ function renderSeeds() {
 function renderPodium() {
   const matches = buildMatches().flatMap((round) => round.matches);
   const gfMatch = matches.find((match) => match.id === "gf");
-  const lbfMatch = matches.find((match) => match.id === "lbf");
+  const thirdMatch = matches.find((match) => match.id === "third");
   const gf = result("gf", gfMatch.a, gfMatch.b);
-  const lbf = result("lbf", lbfMatch.a, lbfMatch.b);
+  const third = result("third", thirdMatch.a, thirdMatch.b);
   const places = [
     ["冠军", gf.winner],
     ["亚军", gf.loser],
-    ["季军", lbf.loser],
+    ["季军", third.winner],
   ];
 
   podium.innerHTML = places.map(([label, item]) => `
@@ -230,7 +325,7 @@ function renderPodium() {
       <span class="place">${label}</span>
       ${item ? renderLogo(item, "podium-logo") : ""}
       <span class="podium-team">${item ? escapeHtml(item.name) : "待预测"}</span>
-      <span class="team-seed">${item ? `${escapeHtml(item.region)} #${escapeHtml(item.seed)}` : "完成关键场次后显示"}</span>
+      <span class="team-seed">${item ? seedLabel(item) : "完成关键场次后显示"}</span>
     </div>
   `).join("");
 }
@@ -241,26 +336,25 @@ function renderBracket() {
 
   const groups = activeTab === "all"
     ? [
-        { key: "upper", title: "胜者组与总决赛", rounds: rounds.filter((round) => round.group === "upper" || round.group === "finals") },
-        { key: "lower", title: "败者组", rounds: rounds.filter((round) => round.group === "lower") },
+        { key: "ga", title: "Group A - GSL 双败出线", rounds: rounds.filter((round) => round.group === "ga") },
+        { key: "gb", title: "Group B - GSL 双败出线", rounds: rounds.filter((round) => round.group === "gb") },
+        { key: "playoffs", title: "Playoffs - 8 队单败", rounds: rounds.filter((round) => round.group === "playoffs") },
       ]
     : [
         { key: activeTab, title: tabTitle(activeTab), rounds: rounds.filter((round) => round.group === activeTab) },
       ];
 
   groups.forEach((group) => {
-    const visibleRounds = group.rounds;
-    if (!visibleRounds.length) return;
-
+    if (!group.rounds.length) return;
     const band = document.createElement("section");
     band.className = `bracket-band bracket-band-${group.key}`;
     band.innerHTML = `
       <div class="band-title">
         <h3>${group.title}</h3>
-        <span>${visibleRounds.reduce((sum, round) => sum + round.matches.length, 0)} 场</span>
+        <span>${group.rounds.reduce((sum, round) => sum + round.matches.length, 0)} 场</span>
       </div>
       <div class="bracket-lane">
-        ${visibleRounds.map(renderRound).join("")}
+        ${group.rounds.map(renderRound).join("")}
       </div>
     `;
     bracket.appendChild(band);
@@ -272,9 +366,9 @@ function renderBracket() {
 
 function tabTitle(tab) {
   return {
-    upper: "胜者组",
-    lower: "败者组",
-    finals: "总决赛",
+    ga: "Group A",
+    gb: "Group B",
+    playoffs: "季后赛",
   }[tab] || "全部赛程";
 }
 
@@ -305,7 +399,7 @@ function renderMatch(match) {
         ${renderLogo(item, "match-logo")}
         <span class="team-copy">
           <span class="team-name">${escapeHtml(item.name)}</span>
-          <span class="team-seed">${escapeHtml(item.region)} #${escapeHtml(item.seed)}</span>
+          <span class="team-seed">Group ${escapeHtml(item.group)} / ${seedLabel(item)}</span>
         </span>
       </button>
     `;
@@ -331,6 +425,8 @@ function drawConnectors() {
   document.querySelectorAll(".connector-layer").forEach((layer) => layer.remove());
 
   document.querySelectorAll(".bracket-lane").forEach((lane) => {
+    if (!lane.closest(".bracket-band-playoffs")) return;
+
     const rounds = [...lane.querySelectorAll(".round")];
     if (rounds.length < 2) return;
 
@@ -480,11 +576,6 @@ document.addEventListener("click", (event) => {
 
   if (event.target.id === "resetAll") {
     state = { teams: structuredClone(DEFAULT_TEAMS), picks: {} };
-    render();
-  }
-
-  if (event.target.id === "loadOfficial") {
-    state = { teams: structuredClone(DEFAULT_TEAMS), picks: { ...OFFICIAL_PICKS } };
     render();
   }
 });

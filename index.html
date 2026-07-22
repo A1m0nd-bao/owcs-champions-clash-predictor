@@ -15,7 +15,6 @@
         </div>
         <div class="top-actions">
           <a class="ghost-link" href="./history.html">历届赛果</a>
-          <button id="loadOfficial" class="ghost-btn" type="button">载入官方赛果</button>
           <button id="resetPicks" class="ghost-btn" type="button">清空预测</button>
           <button id="resetAll" class="danger-btn" type="button">恢复初始数据</button>
         </div>
@@ -26,11 +25,11 @@
           <section class="hero-strip">
             <div>
               <p class="eyebrow">Prediction Board</p>
-              <h2>双败赛程推演</h2>
+              <h2>Midseason Championship 赛程推演</h2>
               <p>
-                2026 Champions Clash 已完赛，冠军为 Crazy Raccoon；这里保留赛程推演用于复盘或重新预测。队伍初始排布可按
-                <a href="https://liquipedia.net/overwatch/Overwatch_Champions_Series/2026/Champions_Clash" target="_blank" rel="noreferrer">Liquipedia</a>
-                或 <a href="https://www.481651.xyz" target="_blank" rel="noreferrer">481651.xyz</a> 的数据自行替换。
+                按 Liquipedia 上的 2026 Midseason Championship 建模：两个 8 队 GSL 小组各出线 4 队，之后进入 8 队单败季后赛并含季军赛。
+                数据可按 <a href="https://liquipedia.net/overwatch/Overwatch_Champions_Series/2026/Midseason_Championship" target="_blank" rel="noreferrer">Liquipedia</a>
+                或 <a href="https://www.481651.xyz" target="_blank" rel="noreferrer">481651.xyz</a> 后续更新自行替换。
               </p>
             </div>
             <div id="podium" class="podium" aria-label="预测前三名"></div>
@@ -38,9 +37,9 @@
 
           <nav class="tabs" aria-label="赛程区域">
             <button class="tab active" type="button" data-tab="all">全部</button>
-            <button class="tab" type="button" data-tab="upper">胜者组</button>
-            <button class="tab" type="button" data-tab="lower">败者组</button>
-            <button class="tab" type="button" data-tab="finals">决赛</button>
+            <button class="tab" type="button" data-tab="ga">Group A</button>
+            <button class="tab" type="button" data-tab="gb">Group B</button>
+            <button class="tab" type="button" data-tab="playoffs">季后赛</button>
           </nav>
 
           <div id="bracket" class="bracket"></div>
@@ -55,7 +54,7 @@
             <span id="progressBadge" class="badge">0 / 14</span>
           </div>
           <p class="hint">
-            这里用于校正队名、地区和顺位；上方赛程会随改动即时更新。
+            这里用于校正队名、地区和顺位；Group A / Group B 分组按 Liquipedia 当前小组页初始化。
           </p>
           <div id="seedList" class="seed-list"></div>
         </aside>
