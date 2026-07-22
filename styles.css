@@ -431,8 +431,24 @@ input:focus {
   align-items: baseline;
   justify-content: space-between;
   gap: 12px;
+  width: 100%;
+  min-height: 0;
   margin-bottom: 10px;
   padding: 0 2px;
+  color: inherit;
+  text-align: left;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+}
+
+.band-title:hover {
+  transform: none;
+}
+
+.band-title:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
 }
 
 .band-title h3 {
@@ -444,6 +460,22 @@ input:focus {
   color: var(--muted);
   font-size: 12px;
   font-weight: 800;
+}
+
+.band-body {
+  overflow: visible;
+}
+
+.bracket-band.collapsed {
+  padding-bottom: 12px;
+}
+
+.bracket-band.collapsed .band-title {
+  margin-bottom: 0;
+}
+
+.bracket-band.collapsed .band-body {
+  display: none;
 }
 
 .bracket-lane {
@@ -485,13 +517,13 @@ input:focus {
 }
 
 .group-lane {
-  grid-auto-columns: minmax(250px, 276px);
-  gap: 28px;
+  grid-auto-columns: minmax(220px, 236px);
+  gap: 24px;
   padding-right: 0;
 }
 
 .group-lane .round {
-  min-width: 250px;
+  min-width: 220px;
 }
 
 .group-lane .round[data-count="1"] .round-matches {
@@ -705,6 +737,13 @@ input:focus {
 
   .group-lane {
     grid-auto-columns: minmax(244px, 270px);
+  }
+}
+
+@media (min-width: 1320px) {
+  .group-bracket {
+    grid-template-columns: repeat(2, max-content);
+    align-items: start;
   }
 }
 

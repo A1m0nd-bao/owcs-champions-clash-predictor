@@ -154,6 +154,7 @@ const PICK_IDS = [
 
 let state = loadState();
 let activeTab = "all";
+let collapsedBands = new Set(["gb", "playoffs"]);
 
 const seedList = document.querySelector("#seedList");
 const bracket = document.querySelector("#bracket");
@@ -346,29 +347,42 @@ function renderBracket() {
 
   groups.forEach((group) => {
     if (!group.rounds.length) return;
-    bracket.appendChild(group.key === "playoffs" ? renderPlayoffBand(group) : renderGroupBand(group));
+    const collapsed = activeTab === "all" && collapsedBands.has(group.key);
+    bracket.appendChild(group.key === "playoffs" ? renderPlayoffBand(group, collapsed) : renderGroupBand(group, collapsed));
   });
 
   progressBadge.textContent = `${completedMatches()} / ${PICK_IDS.length}`;
   scheduleConnectorDraw();
 }
 
-function renderPlayoffBand(group) {
+function renderPlayoffBand(group, collapsed) {
   const band = document.createElement("section");
-  band.className = `bracket-band bracket-band-${group.key}`;
+  band.className = `bracket-band bracket-band-${group.key}${collapsed ? " collapsed" : ""}`;
   band.innerHTML = `
-    <div class="band-title">
-      <h3>${group.title}</h3>
-      <span>${group.rounds.reduce((sum, round) => sum + round.matches.length, 0)} 场</span>
-    </div>
-    <div class="bracket-lane playoff-lane">
-      ${group.rounds.map(renderRound).join("")}
+    ${renderBandTitle(group, collapsed)}
+    <div class="band-body">
+      <div class="bracket-lane playoff-lane">
+        ${group.rounds.map(renderRound).join("")}
+      </div>
     </div>
   `;
   return band;
 }
 
-function renderGroupBand(group) {
+function renderBandTitle(group, collapsed) {
+  const count = group.rounds.reduce((sum, round) => sum + round.matches.length, 0);
+  const completed = group.rounds.reduce((sum, round) => (
+    sum + round.matches.filter((match) => Boolean(state.picks[match.id])).length
+  ), 0);
+  return `
+    <button class="band-title" type="button" data-toggle-band="${escapeAttr(group.key)}" aria-expanded="${collapsed ? "false" : "true"}">
+      <h3>${group.title}</h3>
+      <span>${completed} / ${count} 场 ${collapsed ? "展开" : "收起"}</span>
+    </button>
+  `;
+}
+
+function renderGroupBand(group, collapsed) {
   const prefix = group.key;
   const groupName = prefix === "ga" ? "A" : "B";
   const opening = group.rounds[0].matches;
@@ -377,57 +391,56 @@ function renderGroupBand(group) {
   const decider = group.rounds[3].matches;
 
   const band = document.createElement("section");
-  band.className = `bracket-band bracket-band-${group.key} group-band`;
+  band.className = `bracket-band bracket-band-${group.key} group-band${collapsed ? " collapsed" : ""}`;
   band.innerHTML = `
-    <div class="band-title">
-      <h3>${group.title}</h3>
-      <span>${group.rounds.reduce((sum, round) => sum + round.matches.length, 0)} 场</span>
-    </div>
-    <div class="group-bracket">
-      ${renderGroupPath({
-        title: "上半区胜者路线",
-        rounds: [
-          { title: "上半区四分之一决赛", group: prefix, matches: opening.slice(0, 2) },
-          { title: "上半决赛", group: prefix, matches: [upper[0]] },
-        ],
-        advanceTitle: "晋级",
-        advanceLabel: `${groupName}1`,
-        advanceTeam: result(upper[0].id, upper[0].a, upper[0].b).winner,
-        pending: "等待上半决赛胜者",
-      })}
-      ${renderGroupPath({
-        title: "下半区胜者路线",
-        rounds: [
-          { title: "下半区四分之一决赛", group: prefix, matches: opening.slice(2, 4) },
-          { title: "下半决赛", group: prefix, matches: [upper[1]] },
-        ],
-        advanceTitle: "晋级",
-        advanceLabel: `${groupName}2`,
-        advanceTeam: result(upper[1].id, upper[1].a, upper[1].b).winner,
-        pending: "等待下半决赛胜者",
-      })}
-      ${renderGroupPath({
-        title: "上半区败者路线",
-        rounds: [
-          { title: "败者半决赛", group: prefix, matches: [lower[0]] },
-          { title: "最终出线战", group: prefix, matches: [decider[0]] },
-        ],
-        advanceTitle: "晋级",
-        advanceLabel: `${groupName}3`,
-        advanceTeam: result(decider[0].id, decider[0].a, decider[0].b).winner,
-        pending: "等待最终出线战胜者",
-      })}
-      ${renderGroupPath({
-        title: "下半区败者路线",
-        rounds: [
-          { title: "败者半决赛", group: prefix, matches: [lower[1]] },
-          { title: "最终出线战", group: prefix, matches: [decider[1]] },
-        ],
-        advanceTitle: "晋级",
-        advanceLabel: `${groupName}4`,
-        advanceTeam: result(decider[1].id, decider[1].a, decider[1].b).winner,
-        pending: "等待最终出线战胜者",
-      })}
+    ${renderBandTitle(group, collapsed)}
+    <div class="band-body">
+      <div class="group-bracket">
+        ${renderGroupPath({
+          title: "上半区胜者路线",
+          rounds: [
+            { title: "上半区四分之一决赛", group: prefix, matches: opening.slice(0, 2) },
+            { title: "上半决赛", group: prefix, matches: [upper[0]] },
+          ],
+          advanceTitle: "晋级",
+          advanceLabel: `${groupName}1`,
+          advanceTeam: result(upper[0].id, upper[0].a, upper[0].b).winner,
+          pending: "等待上半决赛胜者",
+        })}
+        ${renderGroupPath({
+          title: "下半区胜者路线",
+          rounds: [
+            { title: "下半区四分之一决赛", group: prefix, matches: opening.slice(2, 4) },
+            { title: "下半决赛", group: prefix, matches: [upper[1]] },
+          ],
+          advanceTitle: "晋级",
+          advanceLabel: `${groupName}2`,
+          advanceTeam: result(upper[1].id, upper[1].a, upper[1].b).winner,
+          pending: "等待下半决赛胜者",
+        })}
+        ${renderGroupPath({
+          title: "上半区败者路线",
+          rounds: [
+            { title: "败者半决赛", group: prefix, matches: [lower[0]] },
+            { title: "最终出线战", group: prefix, matches: [decider[0]] },
+          ],
+          advanceTitle: "晋级",
+          advanceLabel: `${groupName}3`,
+          advanceTeam: result(decider[0].id, decider[0].a, decider[0].b).winner,
+          pending: "等待最终出线战胜者",
+        })}
+        ${renderGroupPath({
+          title: "下半区败者路线",
+          rounds: [
+            { title: "败者半决赛", group: prefix, matches: [lower[1]] },
+            { title: "最终出线战", group: prefix, matches: [decider[1]] },
+          ],
+          advanceTitle: "晋级",
+          advanceLabel: `${groupName}4`,
+          advanceTeam: result(decider[1].id, decider[1].a, decider[1].b).winner,
+          pending: "等待最终出线战胜者",
+        })}
+      </div>
     </div>
   `;
   return band;
@@ -667,6 +680,18 @@ function renderLogo(item, className) {
 }
 
 document.addEventListener("click", (event) => {
+  const toggle = event.target.closest("[data-toggle-band]");
+  if (toggle) {
+    const key = toggle.dataset.toggleBand;
+    if (collapsedBands.has(key)) {
+      collapsedBands.delete(key);
+    } else {
+      collapsedBands.add(key);
+    }
+    renderBracket();
+    return;
+  }
+
   const teamButton = event.target.closest("[data-match][data-team]");
   if (teamButton) {
     const { match, team: teamId } = teamButton.dataset;
