@@ -337,6 +337,12 @@ function renderBracket() {
   bracket.innerHTML = "";
   bracket.className = `bracket view-${viewMode}`;
 
+  if (viewMode === "vertical") {
+    renderRoutePreview(rounds);
+    progressBadge.textContent = `${completedMatches()} / ${PICK_IDS.length}`;
+    return;
+  }
+
   const groups = activeTab === "all"
     ? [
         { key: "ga", title: "Group A - GSL 双败出线", rounds: rounds.filter((round) => round.group === "ga") },
@@ -355,6 +361,60 @@ function renderBracket() {
 
   progressBadge.textContent = `${completedMatches()} / ${PICK_IDS.length}`;
   scheduleConnectorDraw();
+}
+
+function renderRoutePreview(rounds) {
+  const roundByGroup = (group) => rounds.filter((round) => round.group === group);
+  const ga = roundByGroup("ga");
+  const gb = roundByGroup("gb");
+  const playoffs = roundByGroup("playoffs");
+  const upperRows = [
+    { title: "Group A 首轮", note: "Ft2", matches: ga[0].matches },
+    { title: "Group A 胜者出线", note: "A1 / A2", matches: ga[1].matches },
+    { title: "Group B 首轮", note: "Ft2", matches: gb[0].matches },
+    { title: "Group B 胜者出线", note: "B1 / B2", matches: gb[1].matches },
+    { title: "季后赛四分之一决赛", note: "8 队单败", matches: playoffs[0].matches },
+    { title: "半决赛", note: "Ft3", matches: playoffs[1].matches },
+    { title: "季军赛 / 总决赛", note: "Ft3 / Ft4", matches: playoffs[2].matches },
+  ];
+  const lowerRows = [
+    { title: "Group A 败者半决赛", note: "首轮败者", matches: ga[2].matches },
+    { title: "Group A 最终出线", note: "A3 / A4", matches: ga[3].matches },
+    { title: "Group B 败者半决赛", note: "首轮败者", matches: gb[2].matches },
+    { title: "Group B 最终出线", note: "B3 / B4", matches: gb[3].matches },
+  ];
+
+  bracket.appendChild(renderRouteBand("胜者晋级总表", "A/B 组胜者路线与季后赛合并显示", upperRows));
+  bracket.appendChild(renderRouteBand("败者组出线表", "小组败者路线单独显示，胜者进入季后赛席位", lowerRows));
+}
+
+function renderRouteBand(title, subtitle, rows) {
+  const band = document.createElement("section");
+  band.className = "bracket-band route-band";
+  band.innerHTML = `
+    <div class="route-head">
+      <h3>${escapeHtml(title)}</h3>
+      <span>${escapeHtml(subtitle)}</span>
+    </div>
+    <div class="route-table">
+      ${rows.map(renderRouteRow).join("")}
+    </div>
+  `;
+  return band;
+}
+
+function renderRouteRow(row) {
+  return `
+    <section class="route-row">
+      <div class="route-row-label">
+        <h4>${escapeHtml(row.title)}</h4>
+        <span>${escapeHtml(row.note)}</span>
+      </div>
+      <div class="route-row-matches" data-count="${row.matches.length}">
+        ${row.matches.map(renderMatch).join("")}
+      </div>
+    </section>
+  `;
 }
 
 function renderPlayoffBand(group, collapsed) {

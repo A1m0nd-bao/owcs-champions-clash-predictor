@@ -564,6 +564,97 @@ input:focus {
   overflow-x: visible;
 }
 
+.route-band {
+  display: grid;
+  gap: 12px;
+}
+
+.route-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.route-head h3 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.route-head span {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 850;
+}
+
+.route-table {
+  display: grid;
+  gap: 10px;
+}
+
+.route-row {
+  position: relative;
+  display: grid;
+  grid-template-columns: 170px minmax(0, 1fr);
+  gap: 12px;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.66);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+
+.route-row + .route-row::before {
+  position: absolute;
+  top: -12px;
+  left: 94px;
+  width: 3px;
+  height: 12px;
+  background: var(--connector);
+  content: "";
+}
+
+.route-row-label {
+  display: grid;
+  align-content: center;
+  gap: 4px;
+  min-height: 68px;
+  padding: 8px 10px;
+  color: white;
+  background: #263746;
+  border-radius: 6px;
+}
+
+.route-row-label h4 {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.2;
+}
+
+.route-row-label span {
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 12px;
+  font-weight: 850;
+}
+
+.route-row-matches {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 10px;
+  align-items: start;
+}
+
+.route-row-matches[data-count="1"] {
+  grid-template-columns: minmax(210px, 360px);
+}
+
+.route-row-matches[data-count="2"] {
+  grid-template-columns: repeat(2, minmax(210px, 360px));
+}
+
+.route-row-matches .match {
+  min-width: 0;
+}
+
 .bracket.view-vertical .group-bracket {
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   min-width: 0;
@@ -847,6 +938,20 @@ input:focus {
     align-items: flex-start;
     justify-content: flex-start;
     margin-left: 0;
+  }
+
+  .route-row {
+    grid-template-columns: 1fr;
+  }
+
+  .route-row + .route-row::before {
+    left: 24px;
+  }
+
+  .route-row-matches,
+  .route-row-matches[data-count="1"],
+  .route-row-matches[data-count="2"] {
+    grid-template-columns: 1fr;
   }
 
   .seed-fields,
