@@ -7,7 +7,7 @@
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
     <title>OWCS 世界赛预测器</title>
-    <link rel="stylesheet" href="./styles.css?v=20260723-midseason-6" />
+    <link rel="stylesheet" href="./styles.css?v=20260724-ux-audit-1" />
   </head>
   <body>
     <div class="app-shell">
@@ -47,8 +47,8 @@
             </nav>
 
             <nav class="tabs view-tabs" aria-label="预览模式">
-              <button class="tab active" type="button" data-view="horizontal">横向预览</button>
-              <button class="tab" type="button" data-view="vertical">整表路线</button>
+              <button class="tab active" type="button" data-view="vertical">整表路线</button>
+              <button class="tab" type="button" data-view="horizontal">液体横向</button>
             </nav>
           </div>
 
@@ -61,7 +61,10 @@
               <p class="eyebrow">Seed Editor</p>
               <h2>初始种子</h2>
             </div>
-            <span id="progressBadge" class="badge">0 / 14</span>
+            <div class="panel-actions">
+              <span id="progressBadge" class="badge">0 / 28</span>
+              <button id="toggleSeeds" class="mini-btn" type="button" aria-expanded="false">展开编辑</button>
+            </div>
           </div>
           <p class="hint">
             这里用于校正队名、地区和顺位；Group A / Group B 分组按 Liquipedia 当前小组页初始化。
@@ -71,6 +74,6 @@
       </main>
     </div>
 
-    <script src="./app.js?v=20260723-midseason-6"></script>
+    <script src="./app.js?v=20260724-ux-audit-1"></script>
   </body>
 </html>

@@ -154,13 +154,16 @@ const PICK_IDS = [
 
 let state = loadState();
 let activeTab = "all";
-let viewMode = "horizontal";
+let viewMode = "vertical";
 let collapsedBands = new Set(["gb", "playoffs"]);
+let seedEditorCollapsed = true;
 
 const seedList = document.querySelector("#seedList");
 const bracket = document.querySelector("#bracket");
 const podium = document.querySelector("#podium");
 const progressBadge = document.querySelector("#progressBadge");
+const seedsPanel = document.querySelector(".seeds-panel");
+const toggleSeeds = document.querySelector("#toggleSeeds");
 
 function loadState() {
   try {
@@ -369,19 +372,15 @@ function renderRoutePreview(rounds) {
   const gb = roundByGroup("gb");
   const playoffs = roundByGroup("playoffs");
   const upperRows = [
-    { title: "Group A 首轮", note: "Ft2", matches: ga[0].matches },
-    { title: "Group A 胜者出线", note: "A1 / A2", matches: ga[1].matches },
-    { title: "Group B 首轮", note: "Ft2", matches: gb[0].matches },
-    { title: "Group B 胜者出线", note: "B1 / B2", matches: gb[1].matches },
+    { title: "小组首轮", note: "16 队 / Ft2", matches: [...ga[0].matches, ...gb[0].matches] },
+    { title: "胜者出线战", note: "A1 A2 / B1 B2", matches: [...ga[1].matches, ...gb[1].matches] },
     { title: "季后赛四分之一决赛", note: "8 队单败", matches: playoffs[0].matches },
     { title: "半决赛", note: "Ft3", matches: playoffs[1].matches },
     { title: "季军赛 / 总决赛", note: "Ft3 / Ft4", matches: playoffs[2].matches },
   ];
   const lowerRows = [
-    { title: "Group A 败者半决赛", note: "首轮败者", matches: ga[2].matches },
-    { title: "Group A 最终出线", note: "A3 / A4", matches: ga[3].matches },
-    { title: "Group B 败者半决赛", note: "首轮败者", matches: gb[2].matches },
-    { title: "Group B 最终出线", note: "B3 / B4", matches: gb[3].matches },
+    { title: "败者半决赛", note: "A/B 组首轮败者", matches: [...ga[2].matches, ...gb[2].matches] },
+    { title: "最终出线战", note: "A3 A4 / B3 B4", matches: [...ga[3].matches, ...gb[3].matches] },
   ];
 
   bracket.appendChild(renderRouteBand("胜者晋级总表", "A/B 组胜者路线与季后赛合并显示", upperRows));
@@ -704,7 +703,14 @@ function render() {
   renderSeeds();
   renderBracket();
   renderPodium();
+  renderSeedPanelState();
   saveState();
+}
+
+function renderSeedPanelState() {
+  seedsPanel.classList.toggle("collapsed", seedEditorCollapsed);
+  toggleSeeds.textContent = seedEditorCollapsed ? "展开编辑" : "收起编辑";
+  toggleSeeds.setAttribute("aria-expanded", String(!seedEditorCollapsed));
 }
 
 function escapeHtml(value) {
@@ -776,6 +782,12 @@ document.addEventListener("click", (event) => {
     viewMode = view.dataset.view;
     document.querySelectorAll("[data-view]").forEach((item) => item.classList.toggle("active", item === view));
     renderBracket();
+    return;
+  }
+
+  if (event.target.id === "toggleSeeds") {
+    seedEditorCollapsed = !seedEditorCollapsed;
+    renderSeedPanelState();
     return;
   }
 
