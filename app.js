@@ -382,35 +382,58 @@ function renderRoutePreview(rounds) {
     { title: "败者半决赛", note: "A/B 组首轮败者", matches: [...ga[2].matches, ...gb[2].matches] },
     { title: "最终出线战", note: "A3 A4 / B3 B4", matches: [...ga[3].matches, ...gb[3].matches] },
   ];
+  const gf = playoffs[2].matches.find((match) => match.id === "gf");
+  const champion = result(gf.id, gf.a, gf.b).winner;
 
-  bracket.appendChild(renderRouteBand("胜者晋级总表", "A/B 组胜者路线与季后赛合并显示", upperRows));
-  bracket.appendChild(renderRouteBand("败者组出线表", "小组败者路线单独显示，胜者进入季后赛席位", lowerRows));
+  bracket.appendChild(renderRouteBand("登顶主线", "从小组首轮一路向下推进，最后坐上冠军王座", upperRows, { type: "winner", champion }));
+  bracket.appendChild(renderRouteBand("败者组支线", "小组败者路线单独显示，胜者从支线争回季后赛席位", lowerRows, { type: "lower" }));
 }
 
-function renderRouteBand(title, subtitle, rows) {
+function renderRouteBand(title, subtitle, rows, options = {}) {
   const band = document.createElement("section");
-  band.className = "bracket-band route-band";
+  band.className = `bracket-band route-band route-band-${options.type || "default"}`;
   band.innerHTML = `
     <div class="route-head">
       <h3>${escapeHtml(title)}</h3>
       <span>${escapeHtml(subtitle)}</span>
     </div>
     <div class="route-table">
-      ${rows.map(renderRouteRow).join("")}
+      ${rows.map((row, index) => renderRouteRow(row, index + 1)).join("")}
+      ${options.type === "winner" ? renderThrone(options.champion, rows.length + 1) : ""}
     </div>
   `;
   return band;
 }
 
-function renderRouteRow(row) {
+function renderRouteRow(row, step) {
+  const completed = row.matches.length > 0 && row.matches.every((match) => Boolean(state.picks[match.id]));
   return `
-    <section class="route-row">
+    <section class="route-row${completed ? " complete" : ""}">
       <div class="route-row-label">
+        <span class="route-step">${String(step).padStart(2, "0")}</span>
         <h4>${escapeHtml(row.title)}</h4>
         <span>${escapeHtml(row.note)}</span>
       </div>
       <div class="route-row-matches" data-count="${row.matches.length}">
         ${row.matches.map(renderMatch).join("")}
+      </div>
+    </section>
+  `;
+}
+
+function renderThrone(item, step) {
+  return `
+    <section class="route-row route-throne${item ? " complete" : ""}">
+      <div class="route-row-label">
+        <span class="route-step">${String(step).padStart(2, "0")}</span>
+        <h4>冠军王座</h4>
+        <span>登顶终点</span>
+      </div>
+      <div class="throne-card">
+        <span class="throne-kicker">Champion</span>
+        ${item ? renderLogo(item, "podium-logo") : ""}
+        <strong>${item ? escapeHtml(item.name) : "等待总决赛胜者"}</strong>
+        <span>${item ? seedLabel(item) : "完成总决赛后点亮王座"}</span>
       </div>
     </section>
   `;
