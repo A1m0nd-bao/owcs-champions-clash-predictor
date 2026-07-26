@@ -169,7 +169,7 @@ function loadState() {
   try {
     const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
     if (saved?.teams?.length === DEFAULT_TEAMS.length) {
-      return { teams: hydrateTeams(saved.teams), picks: saved.picks || {} };
+      return { teams: hydrateTeams(saved.teams), picks: saved.picks || {}, scores: saved.scores || {} };
     }
   } catch {
     localStorage.removeItem(STORAGE_KEY);
@@ -177,6 +177,7 @@ function loadState() {
   return {
     teams: structuredClone(DEFAULT_TEAMS),
     picks: {},
+    scores: {},
   };
 }
 
@@ -741,6 +742,8 @@ function renderRound(round) {
 function renderMatch(match) {
   const ready = match.a && match.b;
   const picked = state.picks[match.id];
+  const score = state.scores?.[match.id] || {};
+  const targetScore = scoreTarget(match.type);
   const slot = (side, item) => {
     if (!item) {
       return `<div class="pending">${side === "a" ? "上半区" : "下半区"}待定</div>`;
@@ -767,12 +770,34 @@ function renderMatch(match) {
       </div>
       ${slot("a", match.a)}
       ${slot("b", match.b)}
+      <div class="score-control${scoreHasValue(score) ? " filled" : ""}">
+        <span>比分</span>
+        <input type="number" inputmode="numeric" min="0" max="${targetScore}" placeholder="-" value="${escapeAttr(score.a ?? "")}" data-score-match="${escapeAttr(match.id)}" data-score-side="a" aria-label="${escapeAttr(match.label)} 上方队伍比分" ${ready ? "" : "disabled"}>
+        <span class="score-separator">:</span>
+        <input type="number" inputmode="numeric" min="0" max="${targetScore}" placeholder="-" value="${escapeAttr(score.b ?? "")}" data-score-match="${escapeAttr(match.id)}" data-score-side="b" aria-label="${escapeAttr(match.label)} 下方队伍比分" ${ready ? "" : "disabled"}>
+      </div>
     </article>
   `;
 }
 
 function isEliminationMatch(matchId) {
   return /_(l|d)\d$/.test(matchId) || ["qf1", "qf2", "qf3", "qf4", "sf1", "sf2", "third", "gf"].includes(matchId);
+}
+
+function scoreTarget(type) {
+  const parsed = Number(String(type).replace(/\D/g, ""));
+  return Number.isFinite(parsed) && parsed > 0 ? parsed : 4;
+}
+
+function scoreHasValue(score) {
+  return score && (score.a !== undefined && score.a !== "" || score.b !== undefined && score.b !== "");
+}
+
+function normalizeScore(value, max) {
+  if (value === "") return "";
+  const parsed = Number(value);
+  if (!Number.isFinite(parsed)) return "";
+  return String(Math.max(0, Math.min(max, Math.trunc(parsed))));
 }
 
 function scheduleConnectorDraw() {
@@ -911,6 +936,9 @@ function clearInvalidPicks() {
   const matches = buildMatches().flatMap((round) => round.matches);
   for (const match of matches) {
     const pick = state.picks[match.id];
+    if ((!match.a || !match.b) && state.scores?.[match.id]) {
+      delete state.scores[match.id];
+    }
     if (!pick) continue;
     if (!match.a || !match.b || (pick !== match.a.id && pick !== match.b.id)) {
       delete state.picks[match.id];
@@ -1013,13 +1041,43 @@ document.addEventListener("click", (event) => {
 
   if (event.target.id === "resetPicks") {
     state.picks = {};
+    state.scores = {};
     render();
   }
 
   if (event.target.id === "resetAll") {
-    state = { teams: structuredClone(DEFAULT_TEAMS), picks: {} };
+    state = { teams: structuredClone(DEFAULT_TEAMS), picks: {}, scores: {} };
     render();
   }
+});
+
+document.addEventListener("input", (event) => {
+  const input = event.target.closest("[data-score-match][data-score-side]");
+  if (!input) return;
+
+  const matches = buildMatches().flatMap((round) => round.matches);
+  const match = matches.find((item) => item.id === input.dataset.scoreMatch);
+  if (!match?.a || !match?.b) return;
+
+  const max = scoreTarget(match.type);
+  const value = normalizeScore(input.value, max);
+  input.value = value;
+  const score = { ...(state.scores?.[match.id] || {}) };
+  score[input.dataset.scoreSide] = value;
+
+  if (!scoreHasValue(score)) {
+    delete state.scores[match.id];
+  } else {
+    state.scores[match.id] = score;
+  }
+
+  const aScore = score.a === "" || score.a === undefined ? null : Number(score.a);
+  const bScore = score.b === "" || score.b === undefined ? null : Number(score.b);
+  if (aScore !== null && bScore !== null && aScore !== bScore) {
+    state.picks[match.id] = aScore > bScore ? match.a.id : match.b.id;
+  }
+
+  render();
 });
 
 seedList.addEventListener("input", (event) => {
