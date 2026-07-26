@@ -14,7 +14,7 @@ const DEFAULT_TEAMS = [
     region: "SA",
     seed: "1",
     group: "A",
-    logo: "",
+    logo: "./assets/logos/9z-team.png",
     color: "#5b35d5",
   },
   {
