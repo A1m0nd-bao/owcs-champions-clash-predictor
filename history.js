@@ -233,6 +233,26 @@ const EVENTS = [
   },
 ];
 
+const TEAM_LOGOS = {
+  "9z Team": "./assets/logos/9z-team.png",
+  "All Gamers": "./assets/logos/all-gamers.png",
+  "Crazy Raccoon": "./assets/logos/crazy-raccoon.png",
+  "Dallas Fuel": "./assets/logos/dallas-fuel.png",
+  "Geekay Esports": "./assets/logos/geekay-esports.png",
+  "JD Gaming": "./assets/logos/jd-gaming.png",
+  "Spacestation": "./assets/logos/spacestation-gaming.png",
+  "Spacestation Gaming": "./assets/logos/spacestation-gaming.png",
+  "T1": "./assets/logos/t1.png",
+  "Team Falcons": "./assets/logos/team-falcons.png",
+  "Team Liquid": "./assets/logos/team-liquid.png",
+  "Team Secret": "./assets/logos/team-secret.png",
+  "Twisted Minds": "./assets/logos/twisted-minds.png",
+  "VARREL": "./assets/logos/varrel.png",
+  "Virtus.pro": "./assets/logos/virtus-pro.png",
+  "Weibo Gaming": "./assets/logos/weibo-gaming.png",
+  "ZETA DIVISION": "./assets/logos/zeta-division.png",
+};
+
 let activeYear = "all";
 
 const eventList = document.querySelector("#eventList");
@@ -260,6 +280,7 @@ function renderSummary() {
 function renderEvents() {
   const events = activeYear === "all" ? EVENTS : EVENTS.filter((event) => String(event.year) === activeYear);
   eventList.innerHTML = events.map(renderEvent).join("");
+  scheduleHistoryConnectors();
 }
 
 function renderEvent(event) {
@@ -296,26 +317,81 @@ function renderEvent(event) {
 }
 
 function renderHistoryBracket(rounds) {
+  const upperQf = rounds[0].matches;
+  const upperSf = rounds[1].matches;
+  const upperFinal = rounds[2].matches[0];
+  const grandFinal = rounds[2].matches[1];
+  const lower = rounds[3].matches;
+  const columns = [
+    { title: "UB四分之一决赛", compact: false, matches: upperQf.map((match, index) => ({ id: `ubqf-${index}`, next: `ubsf-${Math.floor(index / 2)}`, match })) },
+    { title: "上半决赛", compact: false, matches: upperSf.map((match, index) => ({ id: `ubsf-${index}`, next: "ubf-0", match })) },
+    { title: "上半区决赛", compact: true, matches: [{ id: "ubf-0", next: "gf-0", match: upperFinal }] },
+  ];
+  const lowerColumns = [
+    { title: "下半区第一轮", compact: false, matches: lower.slice(0, 2).map((match, index) => ({ id: `lb1-${index}`, next: `lbqf-${index}`, match })) },
+    { title: "下半区四分之一决赛", compact: false, matches: lower.slice(2, 4).map((match, index) => ({ id: `lbqf-${index}`, next: "lbsf-0", match })) },
+    { title: "下半决赛", compact: true, matches: [{ id: "lbsf-0", next: "lbf-0", match: lower[4] }] },
+    { title: "下半区决赛", compact: true, matches: [{ id: "lbf-0", next: "gf-0", match: lower[5] }] },
+  ];
+
   return `
-    <div class="history-bracket" aria-label="官方晋级图">
+    <div class="history-bracket history-bracket-tree" aria-label="官方晋级图">
       <div class="history-bracket-head">
         <h3>官方晋级图</h3>
-        <span>完整赛程路径</span>
+        <span>紧凑双败赛果树</span>
       </div>
-      <div class="history-bracket-lane">
-        ${rounds.map((round) => `
-          <section class="history-round">
-            <h4>${round.title}</h4>
-            ${round.matches.map(([a, b, score, winner]) => `
-              <div class="history-match">
-                <span class="${winner === a ? "winner" : ""}">${a}</span>
-                <span class="score-pill">${score}</span>
-                <span class="${winner === b ? "winner" : ""}">${b}</span>
-              </div>
-            `).join("")}
+      <div class="history-tree-canvas">
+        <svg class="history-connector-layer" aria-hidden="true"></svg>
+        <div class="history-tree-main">
+          <div class="history-tree-path history-tree-upper">
+            ${columns.map(renderHistoryTreeColumn).join("")}
+          </div>
+          <div class="history-tree-path history-tree-lower">
+            ${lowerColumns.map(renderHistoryTreeColumn).join("")}
+          </div>
+        </div>
+        <div class="history-tree-final">
+          <section class="history-tree-column history-tree-column-final">
+            <h4>总决赛</h4>
+            ${renderHistoryTreeMatch({ id: "gf-0", match: grandFinal })}
           </section>
-        `).join("")}
+        </div>
       </div>
+    </div>
+  `;
+}
+
+function renderHistoryTreeColumn(column) {
+  return `
+    <section class="history-tree-column${column.compact ? " compact" : ""}">
+      <h4>${column.title}</h4>
+      <div class="history-tree-matches" data-count="${column.matches.length}">
+        ${column.matches.map(renderHistoryTreeMatch).join("")}
+      </div>
+    </section>
+  `;
+}
+
+function renderHistoryTreeMatch(item) {
+  if (!item?.match) return "";
+  const [a, b, score, winner] = item.match;
+  const [aScore, bScore] = score.split("-");
+  const nextAttr = item.next ? ` data-next-history="${item.next}"` : "";
+  return `
+    <article class="history-tree-match" data-history-id="${item.id}"${nextAttr}>
+      ${renderHistoryTeam(a, aScore, winner === a)}
+      ${renderHistoryTeam(b, bScore, winner === b)}
+    </article>
+  `;
+}
+
+function renderHistoryTeam(team, score, winner) {
+  const logo = TEAM_LOGOS[team];
+  return `
+    <div class="history-tree-team${winner ? " winner" : ""}">
+      <span class="history-tree-logo">${logo ? `<img src="${logo}" alt="${team} 队标" loading="lazy">` : initials(team)}</span>
+      <span class="history-tree-name">${team}</span>
+      <span class="history-tree-score">${score}</span>
     </div>
   `;
 }
@@ -344,6 +420,13 @@ function placeLabel(index) {
   return ["冠军", "亚军", "第三名", "第四名"][index] || `${index + 1}`;
 }
 
+function initials(name) {
+  const words = String(name).trim().split(/\s+/).filter(Boolean);
+  if (!words.length) return "?";
+  if (words.length === 1) return words[0].slice(0, 2).toUpperCase();
+  return words.slice(0, 2).map((word) => word[0]).join("").toUpperCase();
+}
+
 document.addEventListener("click", (event) => {
   const tab = event.target.closest("[data-year]");
   if (!tab) return;
@@ -351,6 +434,47 @@ document.addEventListener("click", (event) => {
   document.querySelectorAll("[data-year]").forEach((item) => item.classList.toggle("active", item === tab));
   renderEvents();
 });
+
+function scheduleHistoryConnectors() {
+  requestAnimationFrame(drawHistoryConnectors);
+}
+
+function drawHistoryConnectors() {
+  document.querySelectorAll(".history-connector-layer").forEach((layer) => {
+    const canvas = layer.closest(".history-tree-canvas");
+    if (!canvas) return;
+    const rect = canvas.getBoundingClientRect();
+    const width = Math.max(canvas.scrollWidth, canvas.clientWidth);
+    const height = Math.max(canvas.scrollHeight, canvas.clientHeight);
+    layer.setAttribute("width", width);
+    layer.setAttribute("height", height);
+    layer.setAttribute("viewBox", `0 0 ${width} ${height}`);
+    layer.innerHTML = "";
+
+    canvas.querySelectorAll("[data-next-history]").forEach((source) => {
+      const target = canvas.querySelector(`[data-history-id="${source.dataset.nextHistory}"]`);
+      if (!target) return;
+      const sourcePoint = historyPoint(source, "right", canvas, rect);
+      const targetPoint = historyPoint(target, "left", canvas, rect);
+      const midX = Math.round((sourcePoint.x + targetPoint.x) / 2);
+      const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+      path.classList.add("history-connector-path");
+      path.setAttribute("d", `M ${sourcePoint.x} ${sourcePoint.y} H ${midX} V ${targetPoint.y} H ${targetPoint.x}`);
+      layer.appendChild(path);
+    });
+  });
+}
+
+function historyPoint(element, side, canvas, canvasRect) {
+  const rect = element.getBoundingClientRect();
+  const x = side === "right" ? rect.right - canvasRect.left : rect.left - canvasRect.left;
+  return {
+    x: x + canvas.scrollLeft,
+    y: rect.top - canvasRect.top + rect.height / 2 + canvas.scrollTop,
+  };
+}
+
+window.addEventListener("resize", scheduleHistoryConnectors);
 
 renderSummary();
 renderEvents();
