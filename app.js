@@ -371,22 +371,161 @@ function renderRoutePreview(rounds) {
   const ga = roundByGroup("ga");
   const gb = roundByGroup("gb");
   const playoffs = roundByGroup("playoffs");
-  const upperRows = [
-    { title: "小组首轮", note: "16 队 / Ft2", matches: [...ga[0].matches, ...gb[0].matches] },
-    { title: "胜者出线战", note: "A1 A2 / B1 B2", matches: [...ga[1].matches, ...gb[1].matches] },
-    { title: "季后赛四分之一决赛", note: "8 队单败", matches: playoffs[0].matches },
-    { title: "半决赛", note: "Ft3", matches: playoffs[1].matches },
-    { title: "季军赛 / 总决赛", note: "Ft3 / Ft4", matches: playoffs[2].matches },
-  ];
-  const lowerRows = [
-    { title: "败者半决赛", note: "A/B 组首轮败者", matches: [...ga[2].matches, ...gb[2].matches] },
-    { title: "最终出线战", note: "A3 A4 / B3 B4", matches: [...ga[3].matches, ...gb[3].matches] },
+  const paths = [
+    {
+      section: "upper",
+      title: "Group A 上半区胜者路线",
+      rounds: [
+        { title: "上半区四分之一决赛", group: "ga", matches: ga[0].matches.slice(0, 2) },
+        { title: "上半决赛", group: "ga", matches: [ga[1].matches[0]] },
+      ],
+      qualifier: "A1",
+      team: result(ga[1].matches[0].id, ga[1].matches[0].a, ga[1].matches[0].b).winner,
+      pending: "等待上半决赛胜者",
+    },
+    {
+      section: "upper",
+      title: "Group A 下半区胜者路线",
+      rounds: [
+        { title: "下半区四分之一决赛", group: "ga", matches: ga[0].matches.slice(2, 4) },
+        { title: "下半决赛", group: "ga", matches: [ga[1].matches[1]] },
+      ],
+      qualifier: "A2",
+      team: result(ga[1].matches[1].id, ga[1].matches[1].a, ga[1].matches[1].b).winner,
+      pending: "等待下半决赛胜者",
+    },
+    {
+      section: "upper",
+      title: "Group B 上半区胜者路线",
+      rounds: [
+        { title: "上半区四分之一决赛", group: "gb", matches: gb[0].matches.slice(0, 2) },
+        { title: "上半决赛", group: "gb", matches: [gb[1].matches[0]] },
+      ],
+      qualifier: "B1",
+      team: result(gb[1].matches[0].id, gb[1].matches[0].a, gb[1].matches[0].b).winner,
+      pending: "等待上半决赛胜者",
+    },
+    {
+      section: "upper",
+      title: "Group B 下半区胜者路线",
+      rounds: [
+        { title: "下半区四分之一决赛", group: "gb", matches: gb[0].matches.slice(2, 4) },
+        { title: "下半决赛", group: "gb", matches: [gb[1].matches[1]] },
+      ],
+      qualifier: "B2",
+      team: result(gb[1].matches[1].id, gb[1].matches[1].a, gb[1].matches[1].b).winner,
+      pending: "等待下半决赛胜者",
+    },
+    {
+      section: "lower",
+      title: "Group A 上半区败者路线",
+      rounds: [
+        { title: "下半区四分之一决赛", group: "ga", matches: [ga[2].matches[0]] },
+        { title: "下半决赛", group: "ga", matches: [ga[3].matches[0]] },
+      ],
+      qualifier: "A3",
+      team: result(ga[3].matches[0].id, ga[3].matches[0].a, ga[3].matches[0].b).winner,
+      pending: "等待最终出线战胜者",
+    },
+    {
+      section: "lower",
+      title: "Group A 下半区败者路线",
+      rounds: [
+        { title: "下半区四分之一决赛", group: "ga", matches: [ga[2].matches[1]] },
+        { title: "下半决赛", group: "ga", matches: [ga[3].matches[1]] },
+      ],
+      qualifier: "A4",
+      team: result(ga[3].matches[1].id, ga[3].matches[1].a, ga[3].matches[1].b).winner,
+      pending: "等待最终出线战胜者",
+    },
+    {
+      section: "lower",
+      title: "Group B 上半区败者路线",
+      rounds: [
+        { title: "下半区四分之一决赛", group: "gb", matches: [gb[2].matches[0]] },
+        { title: "下半决赛", group: "gb", matches: [gb[3].matches[0]] },
+      ],
+      qualifier: "B3",
+      team: result(gb[3].matches[0].id, gb[3].matches[0].a, gb[3].matches[0].b).winner,
+      pending: "等待最终出线战胜者",
+    },
+    {
+      section: "lower",
+      title: "Group B 下半区败者路线",
+      rounds: [
+        { title: "下半区四分之一决赛", group: "gb", matches: [gb[2].matches[1]] },
+        { title: "下半决赛", group: "gb", matches: [gb[3].matches[1]] },
+      ],
+      qualifier: "B4",
+      team: result(gb[3].matches[1].id, gb[3].matches[1].a, gb[3].matches[1].b).winner,
+      pending: "等待最终出线战胜者",
+    },
   ];
   const gf = playoffs[2].matches.find((match) => match.id === "gf");
   const champion = result(gf.id, gf.a, gf.b).winner;
 
-  bracket.appendChild(renderRouteBand("登顶主线", "从小组首轮一路向下推进，最后坐上冠军王座", upperRows, { type: "winner", champion }));
-  bracket.appendChild(renderRouteBand("败者组支线", "小组败者路线单独显示，胜者从支线争回季后赛席位", lowerRows, { type: "lower" }));
+  const shell = document.createElement("section");
+  shell.className = "bracket-band mega-band";
+  shell.innerHTML = `
+    <div class="route-head mega-head">
+      <h3>世界赛总路线图</h3>
+      <span>小组胜者路线在上，败者路线在下，8 个出线名额汇入右侧季后赛</span>
+    </div>
+    <div class="mega-chart">
+      <svg class="mega-connector-layer" aria-hidden="true"></svg>
+      <div class="mega-column mega-groups">
+        <section class="mega-section mega-section-upper">
+          <div class="mega-section-title">
+            <h4>小组赛胜者路线</h4>
+            <span>图一竖列排放</span>
+          </div>
+          <div class="mega-path-stack">
+            ${paths.filter((path) => path.section === "upper").map(renderMegaPath).join("")}
+          </div>
+        </section>
+        <section class="mega-section mega-section-lower">
+          <div class="mega-section-title">
+            <h4>小组赛败者路线</h4>
+            <span>图二接在下方</span>
+          </div>
+          <div class="mega-path-stack">
+            ${paths.filter((path) => path.section === "lower").map(renderMegaPath).join("")}
+          </div>
+        </section>
+      </div>
+      <div class="mega-column mega-playoffs">
+        <section class="mega-section mega-section-finals">
+          <div class="mega-section-title">
+            <h4>季后赛与王座</h4>
+            <span>所有晋级队伍汇入图三尾部</span>
+          </div>
+          <div class="bracket-lane playoff-lane mega-playoff-lane">
+            ${playoffs.slice(0, 2).map(renderRound).join("")}
+            ${renderRound({ title: "总决赛", group: "playoffs", matches: [gf] })}
+            ${renderAdvanceRound("冠军王座", "Champion", champion, "等待总决赛胜者", "CHAMPION")}
+          </div>
+          <div class="mega-third-place">
+            <p>季军争夺战</p>
+            ${renderMatch(playoffs[2].matches.find((match) => match.id === "third"))}
+          </div>
+        </section>
+      </div>
+    </div>
+  `;
+  bracket.appendChild(shell);
+  scheduleConnectorDraw();
+}
+
+function renderMegaPath(path) {
+  return `
+    <section class="group-path mega-path mega-path-${path.section}" aria-label="${escapeAttr(path.title)}">
+      <p class="group-path-title">${escapeHtml(path.title)}</p>
+      <div class="bracket-lane group-lane mega-group-lane">
+        ${path.rounds.map(renderRound).join("")}
+        ${renderAdvanceRound("晋级", path.qualifier, path.team, path.pending, path.qualifier)}
+      </div>
+    </section>
+  `;
 }
 
 function renderRouteBand(title, subtitle, rows, options = {}) {
@@ -542,7 +681,7 @@ function renderGroupPath({ title, rounds, advanceTitle, advanceLabel, advanceTea
   `;
 }
 
-function renderAdvanceRound(title, label, item, pending) {
+function renderAdvanceRound(title, label, item, pending, qualifier = "") {
   return `
     <section class="round advance-round" data-count="1">
       <div class="round-title">
@@ -550,15 +689,16 @@ function renderAdvanceRound(title, label, item, pending) {
         <span>${escapeHtml(label)}</span>
       </div>
       <div class="round-matches">
-        ${renderAdvanceSlot(item, pending)}
+        ${renderAdvanceSlot(item, pending, qualifier)}
       </div>
     </section>
   `;
 }
 
-function renderAdvanceSlot(item, pending) {
+function renderAdvanceSlot(item, pending, qualifier = "") {
+  const qualifierAttr = qualifier ? ` data-qualifier="${escapeAttr(qualifier)}"` : "";
   return `
-    <article class="match advance-match">
+    <article class="match advance-match"${qualifierAttr}>
       <div class="match-meta">
         <span>晋级名额</span>
         <span>Playoffs</span>
@@ -606,8 +746,10 @@ function renderMatch(match) {
       return `<div class="pending">${side === "a" ? "上半区" : "下半区"}待定</div>`;
     }
     const isWinner = picked === item.id;
+    const isLoser = ready && picked && picked !== item.id;
+    const isEliminated = isLoser && isEliminationMatch(match.id);
     return `
-      <button class="team-button${isWinner ? " winner" : ""}" type="button" data-match="${match.id}" data-team="${item.id}" ${ready ? "" : "disabled"}>
+      <button class="team-button${isWinner ? " winner" : ""}${isEliminated ? " eliminated" : ""}" type="button" data-match="${match.id}" data-team="${item.id}" ${ready ? "" : "disabled"}>
         ${renderLogo(item, "match-logo")}
         <span class="team-copy">
           <span class="team-name">${escapeHtml(item.name)}</span>
@@ -629,8 +771,15 @@ function renderMatch(match) {
   `;
 }
 
+function isEliminationMatch(matchId) {
+  return /_(l|d)\d$/.test(matchId) || ["qf1", "qf2", "qf3", "qf4", "sf1", "sf2", "third", "gf"].includes(matchId);
+}
+
 function scheduleConnectorDraw() {
-  requestAnimationFrame(drawConnectors);
+  requestAnimationFrame(() => {
+    drawConnectors();
+    drawMegaConnectors();
+  });
 }
 
 function drawConnectors() {
@@ -675,6 +824,54 @@ function drawConnectors() {
 
     lane.prepend(svg);
   });
+}
+
+function drawMegaConnectors() {
+  const layer = document.querySelector(".mega-connector-layer");
+  const chart = document.querySelector(".mega-chart");
+  if (!layer || !chart) return;
+
+  const rect = chart.getBoundingClientRect();
+  const width = Math.max(chart.scrollWidth, chart.clientWidth);
+  const height = Math.max(chart.scrollHeight, chart.clientHeight);
+  layer.setAttribute("width", width);
+  layer.setAttribute("height", height);
+  layer.setAttribute("viewBox", `0 0 ${width} ${height}`);
+  layer.innerHTML = "";
+
+  const links = [
+    ["A1", "qf1"], ["B4", "qf1"],
+    ["B2", "qf2"], ["A3", "qf2"],
+    ["A2", "qf3"], ["B3", "qf3"],
+    ["B1", "qf4"], ["A4", "qf4"],
+  ];
+
+  links.forEach(([sourceKey, matchId]) => {
+    const source = chart.querySelector(`[data-qualifier="${sourceKey}"]`);
+    const target = chart.querySelector(`[data-match-id="${matchId}"]`);
+    if (!source || !target) return;
+    addMegaPath(layer, chart, rect, source, target);
+  });
+}
+
+function megaPoint(element, side, chart, chartRect) {
+  const rect = element.getBoundingClientRect();
+  const x = side === "right" ? rect.right - chartRect.left : rect.left - chartRect.left;
+  return {
+    x: x + chart.scrollLeft,
+    y: rect.top - chartRect.top + rect.height / 2 + chart.scrollTop,
+  };
+}
+
+function addMegaPath(svg, chart, chartRect, source, target) {
+  const sourcePoint = megaPoint(source, "right", chart, chartRect);
+  const targetPoint = megaPoint(target, "left", chart, chartRect);
+  const bridgeX = Math.round((sourcePoint.x + targetPoint.x) / 2);
+  const d = `M ${sourcePoint.x} ${sourcePoint.y} H ${bridgeX} V ${targetPoint.y} H ${targetPoint.x}`;
+  const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+  path.classList.add("mega-connector-path");
+  path.setAttribute("d", d);
+  svg.appendChild(path);
 }
 
 function matchPoint(element, side, lane, laneRect) {

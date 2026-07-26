@@ -133,11 +133,13 @@ button:hover {
 .layout {
   display: grid;
   gap: 16px;
+  min-width: 0;
   margin-top: 18px;
 }
 
 .panel,
 .hero-strip {
+  min-width: 0;
   background: rgba(255, 255, 255, 0.94);
   border: 1px solid rgba(219, 227, 237, 0.9);
   border-radius: 8px;
@@ -414,6 +416,7 @@ input:focus {
   display: grid;
   gap: 14px;
   align-items: start;
+  min-width: 0;
   padding-bottom: 24px;
 }
 
@@ -587,6 +590,164 @@ input:focus {
 
 .bracket.view-vertical .bracket-band {
   overflow-x: visible;
+}
+
+.mega-band {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  overflow-x: auto;
+}
+
+.mega-head {
+  position: sticky;
+  left: 0;
+  z-index: 4;
+  min-width: 0;
+  margin-bottom: 14px;
+}
+
+.mega-chart {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(760px, 1.12fr) minmax(560px, 0.88fr);
+  gap: 72px;
+  align-items: start;
+  min-width: 1410px;
+  padding: 8px 10px 12px;
+}
+
+.mega-connector-layer {
+  position: absolute;
+  z-index: 0;
+  inset: 0 auto auto 0;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.mega-connector-path {
+  fill: none;
+  stroke: rgba(121, 137, 153, 0.72);
+  stroke-linecap: square;
+  stroke-linejoin: miter;
+  stroke-width: 3;
+  vector-effect: non-scaling-stroke;
+}
+
+.mega-column {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: 18px;
+}
+
+.mega-section {
+  display: grid;
+  gap: 10px;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.68);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+
+.mega-section-upper {
+  background:
+    linear-gradient(180deg, rgba(189, 139, 47, 0.08), transparent 26%),
+    rgba(255, 255, 255, 0.72);
+}
+
+.mega-section-lower {
+  background:
+    linear-gradient(180deg, rgba(125, 52, 64, 0.08), transparent 30%),
+    rgba(255, 255, 255, 0.72);
+}
+
+.mega-section-finals {
+  position: sticky;
+  top: 12px;
+  background:
+    linear-gradient(180deg, rgba(45, 143, 98, 0.08), transparent 34%),
+    rgba(255, 255, 255, 0.72);
+}
+
+.mega-section-title {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 0 2px;
+}
+
+.mega-section-title h4,
+.mega-third-place p {
+  margin: 0;
+  color: var(--ink);
+  font-size: 15px;
+  font-weight: 950;
+}
+
+.mega-section-title span {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 850;
+}
+
+.mega-path-stack {
+  display: grid;
+  gap: 14px;
+}
+
+.mega-path {
+  padding: 8px;
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid rgba(210, 219, 229, 0.9);
+  border-radius: 8px;
+}
+
+.mega-path-lower .round-title {
+  background: #6f3441;
+}
+
+.mega-group-lane {
+  grid-auto-columns: minmax(196px, 1fr);
+  gap: 28px;
+  min-width: 0;
+  padding: 0;
+}
+
+.mega-group-lane .round {
+  min-width: 0;
+}
+
+.mega-playoff-lane {
+  grid-auto-columns: minmax(188px, 1fr);
+  min-width: 0;
+  padding: 0;
+}
+
+.mega-playoff-lane .round {
+  min-width: 0;
+}
+
+.mega-playoff-lane .advance-round .round-title {
+  background: var(--gold);
+}
+
+.mega-third-place {
+  display: grid;
+  gap: 8px;
+  max-width: 300px;
+  margin-top: 14px;
+}
+
+.mega-third-place p {
+  display: grid;
+  place-items: center;
+  min-height: 34px;
+  color: white;
+  background: #4f5d6b;
+  border-radius: 6px;
 }
 
 .route-band {
@@ -879,6 +1040,44 @@ input:focus {
   display: none;
 }
 
+.bracket.view-vertical .mega-chart .connector-layer {
+  display: block;
+}
+
+.bracket.view-vertical .mega-chart .bracket-lane {
+  grid-auto-flow: column;
+  grid-template-columns: none;
+  align-items: stretch;
+}
+
+.bracket.view-vertical .mega-chart .round {
+  min-width: 0;
+}
+
+.bracket.view-vertical .mega-chart .round-matches {
+  height: 100%;
+}
+
+.bracket.view-vertical .mega-chart .group-lane .round[data-count="1"] .round-matches {
+  align-content: center;
+  min-height: 84px;
+}
+
+.bracket.view-vertical .mega-chart .group-lane .round[data-count="2"] .round-matches {
+  align-content: space-between;
+  min-height: 150px;
+}
+
+.bracket.view-vertical .mega-chart .mega-playoff-lane .round[data-count="1"] .round-matches {
+  align-content: center;
+  min-height: 150px;
+}
+
+.bracket.view-vertical .mega-chart .mega-playoff-lane .round[data-count="2"] .round-matches {
+  align-content: space-around;
+  min-height: 320px;
+}
+
 .round {
   position: relative;
   z-index: 1;
@@ -1020,6 +1219,17 @@ input:focus {
   border-color: rgba(45, 143, 98, 0.38);
 }
 
+.team-button.eliminated {
+  color: #7c1f28;
+  background: #fde9eb;
+  box-shadow: inset 4px 0 0 var(--red);
+}
+
+.team-button.eliminated .team-logo {
+  border-color: rgba(215, 73, 73, 0.42);
+  filter: grayscale(0.35);
+}
+
 .advance-team {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
@@ -1138,6 +1348,11 @@ input:focus {
 
   .bracket-band {
     padding: 12px;
+  }
+
+  .mega-band {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
   }
 
   .bracket-lane {
