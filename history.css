@@ -268,6 +268,10 @@
   padding: 2px 4px 0;
 }
 
+.history-tree-canvas-single {
+  grid-template-columns: max-content;
+}
+
 .history-connector-layer {
   position: absolute;
   z-index: 0;
@@ -298,6 +302,19 @@
   grid-auto-flow: column;
   gap: 34px;
   align-items: start;
+}
+
+.history-tree-path-wide {
+  grid-auto-columns: 176px;
+  gap: 30px;
+}
+
+.history-tree-path-wide .history-tree-column h4 {
+  font-size: 12px;
+}
+
+.history-tree-path-wide .history-tree-name {
+  font-size: 12px;
 }
 
 .history-tree-final {

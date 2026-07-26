@@ -82,6 +82,7 @@ const EVENTS = [
     format: "12 队双败淘汰。前段含 BO3，淘汰赛后段 BO5，总决赛 BO7。",
     source: "https://liquipedia.net/overwatch/Overwatch_Champions_Series/2025/World_Finals",
     podium: ["Twisted Minds", "Al Qadsiah", "Crazy Raccoon", "Team Falcons"],
+    bracketMode: "double12",
     stages: [
       {
         title: "胜者组关键线",
@@ -103,6 +104,55 @@ const EVENTS = [
         ],
       },
     ],
+    bracket: [
+      {
+        title: "胜者组第一轮",
+        matches: [
+          ["Spacestation Gaming", "Team Peps", "2-1", "Spacestation Gaming"],
+          ["Al Qadsiah", "Geekay Esports", "2-0", "Al Qadsiah"],
+          ["Team CC", "T1", "1-2", "T1"],
+          ["Team Falcons", "VARREL", "2-1", "Team Falcons"],
+        ],
+      },
+      {
+        title: "胜者组四分之一决赛",
+        matches: [
+          ["Crazy Raccoon", "Spacestation Gaming", "3-0", "Crazy Raccoon"],
+          ["Weibo Gaming", "Al Qadsiah", "0-3", "Al Qadsiah"],
+          ["Twisted Minds", "T1", "3-2", "Twisted Minds"],
+          ["Team Liquid", "Team Falcons", "1-3", "Team Falcons"],
+        ],
+      },
+      {
+        title: "胜者组半决赛",
+        matches: [
+          ["Crazy Raccoon", "Al Qadsiah", "1-3", "Al Qadsiah"],
+          ["Twisted Minds", "Team Falcons", "3-0", "Twisted Minds"],
+        ],
+      },
+      {
+        title: "胜者组决赛 / 总决赛",
+        matches: [
+          ["Al Qadsiah", "Twisted Minds", "3-1", "Al Qadsiah"],
+          ["Al Qadsiah", "Twisted Minds", "1-4", "Twisted Minds"],
+        ],
+      },
+      {
+        title: "败者组",
+        matches: [
+          ["Team Liquid", "Team Peps", "2-0", "Team Liquid"],
+          ["T1", "Geekay Esports", "2-1", "T1"],
+          ["Weibo Gaming", "Team CC", "2-0", "Weibo Gaming"],
+          ["Spacestation Gaming", "VARREL", "2-0", "Spacestation Gaming"],
+          ["Team Liquid", "T1", "0-3", "T1"],
+          ["Weibo Gaming", "Spacestation Gaming", "3-0", "Weibo Gaming"],
+          ["Crazy Raccoon", "T1", "3-0", "Crazy Raccoon"],
+          ["Team Falcons", "Weibo Gaming", "3-0", "Team Falcons"],
+          ["Crazy Raccoon", "Team Falcons", "3-2", "Crazy Raccoon"],
+          ["Twisted Minds", "Crazy Raccoon", "3-1", "Twisted Minds"],
+        ],
+      },
+    ],
   },
   {
     year: 2025,
@@ -114,6 +164,7 @@ const EVENTS = [
     format: "小组循环赛后接单败淘汰赛。淘汰赛从八强开始，总决赛 BO7。",
     source: "https://liquipedia.net/overwatch/Overwatch_Champions_Series/2025/Midseason_Championship",
     podium: ["Team Falcons", "Al Qadsiah", "Twisted Minds / T1", "Crazy Raccoon / Virtus.pro / Team Liquid / Geekay Esports"],
+    bracketMode: "single",
     stages: [
       {
         title: "半决赛",
@@ -129,9 +180,39 @@ const EVENTS = [
         ],
       },
       {
+        title: "季军赛",
+        matches: [
+          ["Twisted Minds", "T1", "3-1", "Twisted Minds"],
+        ],
+      },
+      {
         title: "赛制差异",
         matches: [],
         note: "这是历届 OWCS 国际赛中结构最不同的一站：先用小组循环筛出淘汰赛席位，再用单败决出冠军。",
+      },
+    ],
+    bracket: [
+      {
+        title: "四分之一决赛",
+        matches: [
+          ["Crazy Raccoon", "Twisted Minds", "2-3", "Twisted Minds"],
+          ["Al Qadsiah", "Virtus.pro", "3-0", "Al Qadsiah"],
+          ["T1", "Team Liquid", "3-0", "T1"],
+          ["Team Falcons", "Geekay Esports", "3-2", "Team Falcons"],
+        ],
+      },
+      {
+        title: "半决赛",
+        matches: [
+          ["Twisted Minds", "Al Qadsiah", "2-3", "Al Qadsiah"],
+          ["T1", "Team Falcons", "1-3", "Team Falcons"],
+        ],
+      },
+      {
+        title: "总决赛",
+        matches: [
+          ["Al Qadsiah", "Team Falcons", "0-4", "Team Falcons"],
+        ],
       },
     ],
   },
@@ -145,6 +226,7 @@ const EVENTS = [
     format: "8 队双败淘汰。常规淘汰赛 BO5，总决赛 BO7。",
     source: "https://liquipedia.net/overwatch/Overwatch_Champions_Series/2025/Champions_Clash",
     podium: ["Crazy Raccoon", "Team Falcons", "NTMR", "Once Again"],
+    bracketMode: "double8",
     stages: [
       {
         title: "胜者组关键线",
@@ -166,6 +248,42 @@ const EVENTS = [
         ],
       },
     ],
+    bracket: [
+      {
+        title: "胜者组四分之一决赛",
+        matches: [
+          ["Team Falcons", "Al Qadsiah", "2-1", "Team Falcons"],
+          ["Virtus.pro", "Once Again", "0-2", "Once Again"],
+          ["NTMR", "Team CC", "2-0", "NTMR"],
+          ["Crazy Raccoon", "Spacestation Gaming", "2-0", "Crazy Raccoon"],
+        ],
+      },
+      {
+        title: "胜者组半决赛",
+        matches: [
+          ["Team Falcons", "Once Again", "3-2", "Team Falcons"],
+          ["NTMR", "Crazy Raccoon", "3-1", "NTMR"],
+        ],
+      },
+      {
+        title: "胜者组决赛 / 总决赛",
+        matches: [
+          ["Team Falcons", "NTMR", "3-0", "Team Falcons"],
+          ["Team Falcons", "Crazy Raccoon", "2-4", "Crazy Raccoon"],
+        ],
+      },
+      {
+        title: "败者组",
+        matches: [
+          ["Al Qadsiah", "Virtus.pro", "0-3", "Virtus.pro"],
+          ["Team CC", "Spacestation Gaming", "0-3", "Spacestation Gaming"],
+          ["Crazy Raccoon", "Virtus.pro", "3-1", "Crazy Raccoon"],
+          ["Once Again", "Spacestation Gaming", "3-1", "Once Again"],
+          ["Crazy Raccoon", "Once Again", "3-0", "Crazy Raccoon"],
+          ["NTMR", "Crazy Raccoon", "0-3", "Crazy Raccoon"],
+        ],
+      },
+    ],
   },
   {
     year: 2024,
@@ -177,6 +295,7 @@ const EVENTS = [
     format: "8 队双败淘汰。常规淘汰赛 BO5，总决赛 BO7。",
     source: "https://liquipedia.net/overwatch/Overwatch_Champions_Series/2024/World_Finals",
     podium: ["Team Falcons", "Crazy Raccoon", "Toronto Defiant", "NRG Shock"],
+    bracketMode: "double8",
     stages: [
       {
         title: "胜者组关键线",
@@ -198,6 +317,42 @@ const EVENTS = [
         ],
       },
     ],
+    bracket: [
+      {
+        title: "胜者组四分之一决赛",
+        matches: [
+          ["Team Falcons", "Twisted Minds", "2-1", "Team Falcons"],
+          ["Spacestation Gaming", "NTMR", "0-2", "NTMR"],
+          ["Crazy Raccoon", "NRG Shock", "2-0", "Crazy Raccoon"],
+          ["Toronto Defiant", "ENCE", "2-0", "Toronto Defiant"],
+        ],
+      },
+      {
+        title: "胜者组半决赛",
+        matches: [
+          ["Team Falcons", "NTMR", "3-0", "Team Falcons"],
+          ["Crazy Raccoon", "Toronto Defiant", "3-0", "Crazy Raccoon"],
+        ],
+      },
+      {
+        title: "胜者组决赛 / 总决赛",
+        matches: [
+          ["Team Falcons", "Crazy Raccoon", "3-0", "Team Falcons"],
+          ["Team Falcons", "Crazy Raccoon", "4-1", "Team Falcons"],
+        ],
+      },
+      {
+        title: "败者组",
+        matches: [
+          ["Twisted Minds", "Spacestation Gaming", "3-1", "Twisted Minds"],
+          ["NRG Shock", "ENCE", "3-0", "NRG Shock"],
+          ["Toronto Defiant", "Twisted Minds", "3-2", "Toronto Defiant"],
+          ["NTMR", "NRG Shock", "0-3", "NRG Shock"],
+          ["Toronto Defiant", "NRG Shock", "3-0", "Toronto Defiant"],
+          ["Crazy Raccoon", "Toronto Defiant", "3-0", "Crazy Raccoon"],
+        ],
+      },
+    ],
   },
   {
     year: 2024,
@@ -209,6 +364,7 @@ const EVENTS = [
     format: "8 队双败淘汰。常规淘汰赛 BO5，总决赛 BO7。",
     source: "https://liquipedia.net/overwatch/Overwatch_Champions_Series/2024/Major",
     podium: ["Crazy Raccoon", "Team Falcons", "Spacestation Gaming", "ENCE"],
+    bracketMode: "double8",
     stages: [
       {
         title: "胜者组关键线",
@@ -230,27 +386,77 @@ const EVENTS = [
         ],
       },
     ],
+    bracket: [
+      {
+        title: "胜者组四分之一决赛",
+        matches: [
+          ["Spacestation Gaming", "NRG Shock", "3-0", "Spacestation Gaming"],
+          ["Team Falcons", "ENCE", "3-0", "Team Falcons"],
+          ["Crazy Raccoon", "M80", "3-0", "Crazy Raccoon"],
+          ["Toronto Defiant", "Twisted Minds", "3-0", "Toronto Defiant"],
+        ],
+      },
+      {
+        title: "胜者组半决赛",
+        matches: [
+          ["Spacestation Gaming", "Team Falcons", "0-3", "Team Falcons"],
+          ["Crazy Raccoon", "Toronto Defiant", "3-0", "Crazy Raccoon"],
+        ],
+      },
+      {
+        title: "胜者组决赛 / 总决赛",
+        matches: [
+          ["Team Falcons", "Crazy Raccoon", "3-2", "Team Falcons"],
+          ["Team Falcons", "Crazy Raccoon", "2-4", "Crazy Raccoon"],
+        ],
+      },
+      {
+        title: "败者组",
+        matches: [
+          ["NRG Shock", "ENCE", "1-3", "ENCE"],
+          ["M80", "Twisted Minds", "3-0", "M80"],
+          ["Toronto Defiant", "ENCE", "1-3", "ENCE"],
+          ["Spacestation Gaming", "M80", "3-2", "Spacestation Gaming"],
+          ["ENCE", "Spacestation Gaming", "1-3", "Spacestation Gaming"],
+          ["Crazy Raccoon", "Spacestation Gaming", "3-0", "Crazy Raccoon"],
+        ],
+      },
+    ],
   },
 ];
 
 const TEAM_LOGOS = {
   "9z Team": "./assets/logos/9z-team.png",
   "All Gamers": "./assets/logos/all-gamers.png",
+  "All Gamers Global": "./assets/logos/all-gamers-global.png",
+  "Al Qadsiah": "./assets/logos/al-qadsiah.png",
   "Crazy Raccoon": "./assets/logos/crazy-raccoon.png",
   "Dallas Fuel": "./assets/logos/dallas-fuel.png",
+  "ENCE": "./assets/logos/ence.png",
   "Geekay Esports": "./assets/logos/geekay-esports.png",
   "JD Gaming": "./assets/logos/jd-gaming.png",
+  "M80": "./assets/logos/m80.png",
+  "NRG Shock": "./assets/logos/nrg-shock.png",
+  "NTMR": "./assets/logos/ntmr.png",
+  "Once Again": "./assets/logos/once-again.png",
+  "ROC Esports": "./assets/logos/roc-esports.png",
   "Spacestation": "./assets/logos/spacestation-gaming.png",
   "Spacestation Gaming": "./assets/logos/spacestation-gaming.png",
   "T1": "./assets/logos/t1.png",
+  "Team CC": "./assets/logos/team-cc.png",
+  "Team CC (Chinese orgless team)": "./assets/logos/team-cc.png",
   "Team Falcons": "./assets/logos/team-falcons.png",
   "Team Liquid": "./assets/logos/team-liquid.png",
+  "Team Peps": "./assets/logos/team-peps.png",
   "Team Secret": "./assets/logos/team-secret.png",
+  "The Gatos Guapos": "./assets/logos/the-gatos-guapos.png",
+  "Toronto Defiant": "./assets/logos/toronto-defiant.png",
   "Twisted Minds": "./assets/logos/twisted-minds.png",
   "VARREL": "./assets/logos/varrel.png",
   "Virtus.pro": "./assets/logos/virtus-pro.png",
   "Weibo Gaming": "./assets/logos/weibo-gaming.png",
   "ZETA DIVISION": "./assets/logos/zeta-division.png",
+  "ZoKorp Esports": "./assets/logos/zokorp-esports.png",
 };
 
 let activeYear = "all";
@@ -310,13 +516,23 @@ function renderEvent(event) {
         <div class="stage-board">
           ${event.stages.map(renderStage).join("")}
         </div>
-        ${event.bracket ? renderHistoryBracket(event.bracket) : ""}
+        ${event.bracket ? renderHistoryBracket(event) : ""}
       </div>
     </article>
   `;
 }
 
-function renderHistoryBracket(rounds) {
+function renderHistoryBracket(event) {
+  if (event.bracketMode === "single") {
+    return renderHistorySingleBracket(event.bracket);
+  }
+  if (event.bracketMode === "double12") {
+    return renderHistoryDouble12Bracket(event.bracket);
+  }
+  return renderHistoryDouble8Bracket(event.bracket);
+}
+
+function renderHistoryDouble8Bracket(rounds) {
   const upperQf = rounds[0].matches;
   const upperSf = rounds[1].matches;
   const upperFinal = rounds[2].matches[0];
@@ -356,6 +572,89 @@ function renderHistoryBracket(rounds) {
             ${renderHistoryTreeMatch({ id: "gf-0", match: grandFinal })}
           </section>
         </div>
+      </div>
+    </div>
+  `;
+}
+
+function renderHistoryDouble12Bracket(rounds) {
+  const upperRound1 = rounds[0].matches;
+  const upperQf = rounds[1].matches;
+  const upperSf = rounds[2].matches;
+  const upperFinal = rounds[3].matches[0];
+  const grandFinal = rounds[3].matches[1];
+  const lower = rounds[4].matches;
+  const columns = [
+    { title: "胜者组第一轮", compact: false, matches: upperRound1.map((match, index) => ({ id: `ubr1-${index}`, next: `ubqf-${index}`, match })) },
+    { title: "胜者组四分之一决赛", compact: false, matches: upperQf.map((match, index) => ({ id: `ubqf-${index}`, next: `ubsf-${Math.floor(index / 2)}`, match })) },
+    { title: "胜者组半决赛", compact: false, matches: upperSf.map((match, index) => ({ id: `ubsf-${index}`, next: "ubf-0", match })) },
+    { title: "胜者组决赛", compact: true, matches: [{ id: "ubf-0", next: "gf-0", match: upperFinal }] },
+  ];
+  const lowerColumns = [
+    { title: "败者组第一轮", compact: false, matches: lower.slice(0, 4).map((match, index) => ({ id: `lb1-${index}`, next: `lb2-${Math.floor(index / 2)}`, match })) },
+    { title: "败者组第二轮", compact: false, matches: lower.slice(4, 6).map((match, index) => ({ id: `lb2-${index}`, next: `lb3-${index}`, match })) },
+    { title: "败者组三轮", compact: false, matches: lower.slice(6, 8).map((match, index) => ({ id: `lb3-${index}`, next: "lbsf-0", match })) },
+    { title: "败者组半决赛", compact: true, matches: [{ id: "lbsf-0", next: "lbf-0", match: lower[8] }] },
+    { title: "败者组决赛", compact: true, matches: [{ id: "lbf-0", next: "gf-0", match: lower[9] }] },
+  ];
+
+  return renderHistoryTreeShell({
+    label: "官方晋级图",
+    subtitle: "紧凑 12 队双败赛果树",
+    main: `
+      <div class="history-tree-main history-tree-main-wide">
+        <div class="history-tree-path history-tree-upper history-tree-path-wide">
+          ${columns.map(renderHistoryTreeColumn).join("")}
+        </div>
+        <div class="history-tree-path history-tree-lower history-tree-path-wide">
+          ${lowerColumns.map(renderHistoryTreeColumn).join("")}
+        </div>
+      </div>
+      <div class="history-tree-final">
+        <section class="history-tree-column history-tree-column-final">
+          <h4>总决赛</h4>
+          ${renderHistoryTreeMatch({ id: "gf-0", match: grandFinal })}
+        </section>
+      </div>
+    `,
+  });
+}
+
+function renderHistorySingleBracket(rounds) {
+  const columns = rounds.map((round, roundIndex) => ({
+    title: round.title,
+    compact: round.matches.length === 1,
+    matches: round.matches.map((match, matchIndex) => ({
+      id: `single-${roundIndex}-${matchIndex}`,
+      next: roundIndex < rounds.length - 1 ? `single-${roundIndex + 1}-${Math.floor(matchIndex / 2)}` : "",
+      match,
+    })),
+  }));
+
+  return renderHistoryTreeShell({
+    label: "官方晋级图",
+    subtitle: "紧凑单败赛果树",
+    canvasClass: "history-tree-canvas-single",
+    main: `
+      <div class="history-tree-main">
+        <div class="history-tree-path history-tree-single">
+          ${columns.map(renderHistoryTreeColumn).join("")}
+        </div>
+      </div>
+    `,
+  });
+}
+
+function renderHistoryTreeShell({ label, subtitle, main, canvasClass = "" }) {
+  return `
+    <div class="history-bracket history-bracket-tree" aria-label="${label}">
+      <div class="history-bracket-head">
+        <h3>${label}</h3>
+        <span>${subtitle}</span>
+      </div>
+      <div class="history-tree-canvas ${canvasClass}">
+        <svg class="history-connector-layer" aria-hidden="true"></svg>
+        ${main}
       </div>
     </div>
   `;
