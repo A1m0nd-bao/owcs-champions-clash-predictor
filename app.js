@@ -237,8 +237,8 @@ function groupMatches(prefix, ids) {
   const lr1 = result(l1.id, l1.a, l1.b);
   const lr2 = result(l2.id, l2.a, l2.b);
 
-  const d1 = { id: `${prefix}_d1`, group: prefix, type: "Ft2", label: "最终出线 1", a: ur1.loser, b: lr1.winner };
-  const d2 = { id: `${prefix}_d2`, group: prefix, type: "Ft2", label: "最终出线 2", a: ur2.loser, b: lr2.winner };
+  const d1 = { id: `${prefix}_d1`, group: prefix, type: "Ft2", label: "最终出线 1", a: ur2.loser, b: lr1.winner };
+  const d2 = { id: `${prefix}_d2`, group: prefix, type: "Ft2", label: "最终出线 2", a: ur1.loser, b: lr2.winner };
   const dr1 = result(d1.id, d1.a, d1.b);
   const dr2 = result(d2.id, d2.a, d2.b);
 
