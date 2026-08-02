@@ -419,10 +419,10 @@ function renderRoutePreview(rounds) {
     },
     {
       section: "lower",
-      title: "Group A 上半区败者路线",
+      title: "Group A 败者路线 1",
       rounds: [
-        { title: "下半区四分之一决赛", group: "ga", matches: [ga[2].matches[0]] },
-        { title: "下半决赛", group: "ga", matches: [ga[3].matches[0]] },
+        { title: "败者组四分之一决赛", group: "ga", matches: [ga[2].matches[0]] },
+        { title: "败者组晋级战", group: "ga", matches: [ga[3].matches[0]] },
       ],
       qualifier: "A3",
       team: result(ga[3].matches[0].id, ga[3].matches[0].a, ga[3].matches[0].b).winner,
@@ -430,10 +430,10 @@ function renderRoutePreview(rounds) {
     },
     {
       section: "lower",
-      title: "Group A 下半区败者路线",
+      title: "Group A 败者路线 2",
       rounds: [
-        { title: "下半区四分之一决赛", group: "ga", matches: [ga[2].matches[1]] },
-        { title: "下半决赛", group: "ga", matches: [ga[3].matches[1]] },
+        { title: "败者组四分之一决赛", group: "ga", matches: [ga[2].matches[1]] },
+        { title: "败者组晋级战", group: "ga", matches: [ga[3].matches[1]] },
       ],
       qualifier: "A4",
       team: result(ga[3].matches[1].id, ga[3].matches[1].a, ga[3].matches[1].b).winner,
@@ -441,10 +441,10 @@ function renderRoutePreview(rounds) {
     },
     {
       section: "lower",
-      title: "Group B 上半区败者路线",
+      title: "Group B 败者路线 1",
       rounds: [
-        { title: "下半区四分之一决赛", group: "gb", matches: [gb[2].matches[0]] },
-        { title: "下半决赛", group: "gb", matches: [gb[3].matches[0]] },
+        { title: "败者组四分之一决赛", group: "gb", matches: [gb[2].matches[0]] },
+        { title: "败者组晋级战", group: "gb", matches: [gb[3].matches[0]] },
       ],
       qualifier: "B3",
       team: result(gb[3].matches[0].id, gb[3].matches[0].a, gb[3].matches[0].b).winner,
@@ -452,10 +452,10 @@ function renderRoutePreview(rounds) {
     },
     {
       section: "lower",
-      title: "Group B 下半区败者路线",
+      title: "Group B 败者路线 2",
       rounds: [
-        { title: "下半区四分之一决赛", group: "gb", matches: [gb[2].matches[1]] },
-        { title: "下半决赛", group: "gb", matches: [gb[3].matches[1]] },
+        { title: "败者组四分之一决赛", group: "gb", matches: [gb[2].matches[1]] },
+        { title: "败者组晋级战", group: "gb", matches: [gb[3].matches[1]] },
       ],
       qualifier: "B4",
       team: result(gb[3].matches[1].id, gb[3].matches[1].a, gb[3].matches[1].b).winner,
@@ -643,10 +643,10 @@ function renderGroupBand(group, collapsed) {
           pending: "等待下半决赛胜者",
         })}
         ${renderGroupPath({
-          title: "上半区败者路线",
+          title: "败者路线 1",
           rounds: [
-            { title: "败者半决赛", group: prefix, matches: [lower[0]] },
-            { title: "最终出线战", group: prefix, matches: [decider[0]] },
+            { title: "败者组四分之一决赛", group: prefix, matches: [lower[0]] },
+            { title: "败者组晋级战", group: prefix, matches: [decider[0]] },
           ],
           advanceTitle: "晋级",
           advanceLabel: `${groupName}3`,
@@ -654,10 +654,10 @@ function renderGroupBand(group, collapsed) {
           pending: "等待最终出线战胜者",
         })}
         ${renderGroupPath({
-          title: "下半区败者路线",
+          title: "败者路线 2",
           rounds: [
-            { title: "败者半决赛", group: prefix, matches: [lower[1]] },
-            { title: "最终出线战", group: prefix, matches: [decider[1]] },
+            { title: "败者组四分之一决赛", group: prefix, matches: [lower[1]] },
+            { title: "败者组晋级战", group: prefix, matches: [decider[1]] },
           ],
           advanceTitle: "晋级",
           advanceLabel: `${groupName}4`,
