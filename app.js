@@ -264,10 +264,10 @@ function buildMatches() {
   const a = groupA.qualifiers;
   const b = groupB.qualifiers;
 
-  const qf1 = { id: "qf1", group: "playoffs", type: "Ft3", label: "QF1", a: a.first, b: b.fourth };
-  const qf2 = { id: "qf2", group: "playoffs", type: "Ft3", label: "QF2", a: b.second, b: a.third };
-  const qf3 = { id: "qf3", group: "playoffs", type: "Ft3", label: "QF3", a: a.second, b: b.third };
-  const qf4 = { id: "qf4", group: "playoffs", type: "Ft3", label: "QF4", a: b.first, b: a.fourth };
+  const qf1 = { id: "qf1", group: "playoffs", type: "Ft3", label: "QF1", a: b.third, b: a.first };
+  const qf2 = { id: "qf2", group: "playoffs", type: "Ft3", label: "QF2", a: a.second, b: b.fourth };
+  const qf3 = { id: "qf3", group: "playoffs", type: "Ft3", label: "QF3", a: a.third, b: b.first };
+  const qf4 = { id: "qf4", group: "playoffs", type: "Ft3", label: "QF4", a: a.fourth, b: b.second };
   const qr1 = result(qf1.id, qf1.a, qf1.b);
   const qr2 = result(qf2.id, qf2.a, qf2.b);
   const qr3 = result(qf3.id, qf3.a, qf3.b);
@@ -865,10 +865,10 @@ function drawMegaConnectors() {
   layer.innerHTML = "";
 
   const links = [
-    ["A1", "qf1"], ["B4", "qf1"],
-    ["B2", "qf2"], ["A3", "qf2"],
-    ["A2", "qf3"], ["B3", "qf3"],
-    ["B1", "qf4"], ["A4", "qf4"],
+    ["B3", "qf1"], ["A1", "qf1"],
+    ["A2", "qf2"], ["B4", "qf2"],
+    ["A3", "qf3"], ["B1", "qf3"],
+    ["A4", "qf4"], ["B2", "qf4"],
   ];
 
   links.forEach(([sourceKey, matchId]) => {
